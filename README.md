@@ -1,8 +1,8 @@
 # SideDish POOOP project
 
 ### TODO:
-- [ ] LoginActivity
-- [ ] TableListActivity
+- [x] LoginActivity Started
+- [ ] TableTableActivity
 - [ ] TableActivity
 - [ ] OrderFragment
 - [ ] Kitchen Screen (lots more to add)
