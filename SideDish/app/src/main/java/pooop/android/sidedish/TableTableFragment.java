@@ -3,7 +3,6 @@ package pooop.android.sidedish;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -21,6 +20,7 @@ public class TableTableFragment extends Fragment {
     private RecyclerView mTableRecyclerView;
     private TableAdapter mTableAdapter;
     private Button mNewTableButton;
+    private Button mEditTableButton;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container,
@@ -59,8 +59,6 @@ public class TableTableFragment extends Fragment {
                 builder.show();
             }
         });
-
-        updateTableTable();
 
         return view;
     }

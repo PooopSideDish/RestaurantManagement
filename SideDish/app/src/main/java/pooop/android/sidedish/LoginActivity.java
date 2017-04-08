@@ -1,5 +1,6 @@
 package pooop.android.sidedish;
 
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -17,6 +18,12 @@ public class LoginActivity extends AppCompatActivity {
     private EditText mLoginEditText;
     private Button mLoginButton;
     private String mLoginStr = "";
+
+    public static Intent newIntent(Context packageContext){
+        Intent intent = new Intent(packageContext, LoginActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NO_HISTORY);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

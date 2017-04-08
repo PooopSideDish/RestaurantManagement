@@ -1,13 +1,14 @@
 <resources>
+    <!-- Strings Sean made -->
     <string name="app_name">SideDish</string>
     <string name="login_prompt">Enter your user ID</string>
     <string name="login">Login</string>
-    <string name="invalid_login">Invalid Login ID</string>
-    <string name="login_success">Successful login!</string>
     <string name="login_fail">Invalid Login</string>
-    <string name="title_activity_login_two">Sign in</string>
+    <string name="logout">Logout</string>
+
 
     <!-- Strings related to login -->
+    <string name="invalid_login">Invalid Login ID</string>
     <string name="prompt_email">Email</string>
     <string name="prompt_password">Password (optional)</string>
     <string name="action_sign_in">Sign in or register</string>
