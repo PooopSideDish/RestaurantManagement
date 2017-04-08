@@ -1,5 +1,6 @@
 package pooop.android.sidedish;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -46,8 +47,11 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mLoginStr.equals(MANAGER_LOGIN_TEST)){
-                    Toast.makeText(LoginActivity.this, R.string.login_success, Toast.LENGTH_SHORT)
-                            .show();
+                    Intent intent = WaitStaffActivity.newIntent(getApplicationContext());
+                    startActivity(intent);
+
+                    // Back button to exit app rather than logout
+                    finish();
                 }
                 else{
                     Toast.makeText(LoginActivity.this, R.string.login_fail, Toast.LENGTH_SHORT)

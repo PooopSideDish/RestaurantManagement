@@ -1,5 +1,7 @@
 package pooop.android.sidedish;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,6 +17,11 @@ import android.view.MenuItem;
 
 public class WaitStaffActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    public static Intent newIntent(Context packageContext){
+        return new Intent(packageContext, WaitStaffActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
