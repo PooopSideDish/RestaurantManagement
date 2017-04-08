@@ -20,13 +20,14 @@ public class TableController {
     private TableController(Context context) {
         mContext = context.getApplicationContext();
         mTableList = new ArrayList<>();
-
-        // Make some test tables for now
-        for(int i=1; i<110; i++)
-            mTableList.add(new Table(i, i/2 + 1));
     }
 
     public List<Table> getTables(){
         return mTableList;
+    }
+
+    public void addTable(String section){
+        Table newTable = new Table(mTableList.size() + 1, section);
+        mTableList.add(newTable);
     }
 }

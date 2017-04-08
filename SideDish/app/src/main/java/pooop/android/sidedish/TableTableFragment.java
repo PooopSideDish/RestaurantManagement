@@ -1,12 +1,17 @@
 package pooop.android.sidedish;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.List;
@@ -15,6 +20,7 @@ public class TableTableFragment extends Fragment {
 
     private RecyclerView mTableRecyclerView;
     private TableAdapter mTableAdapter;
+    private Button mNewTableButton;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container,
@@ -24,6 +30,35 @@ public class TableTableFragment extends Fragment {
 
         mTableRecyclerView = (RecyclerView) view.findViewById(R.id.table_recycler_view);
         mTableRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+
+        mNewTableButton = (Button) view.findViewById(R.id.new_table_button);
+        mNewTableButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                final EditText input = new EditText(getActivity());
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Set Table's Section");
+                builder.setView(input);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        TableController tc = TableController.getInstance(getActivity());
+                        tc.addTable(input.getText().toString());
+                        updateTableTable();
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
 
         updateTableTable();
 

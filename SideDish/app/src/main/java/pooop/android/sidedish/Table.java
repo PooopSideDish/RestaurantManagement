@@ -4,10 +4,14 @@ package pooop.android.sidedish;
 public class Table {
 
     private int mNum;
-    private int mSection;
+    private String mSection = "No Section";
     private String mStatus = "Empty";
 
-    public Table(int tableNum, int tableSection){
+    public Table(int tableNum){
+        mNum = tableNum;
+    }
+
+    public Table(int tableNum, String tableSection){
         mNum = tableNum;
         mSection = tableSection;
     }
@@ -20,7 +24,7 @@ public class Table {
         return mStatus;
     }
 
-    public int getSection(){
+    public String getSection(){
         return mSection;
     }
 }
