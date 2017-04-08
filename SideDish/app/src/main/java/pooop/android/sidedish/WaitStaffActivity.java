@@ -80,6 +80,9 @@ public class WaitStaffActivity extends AppCompatActivity
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
+
+        // TODO: So.... what's suppose to be in NavBar again?
+
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 

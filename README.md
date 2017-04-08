@@ -1,7 +1,8 @@
 # SideDish POOOP project
 
 ### TODO:
-- [ ] TableFragment
+- [ ] TableFragment (with orders)
+- [ ] OrderPagerActivity with FAB to add orders
 - [ ] TableTable edit table button custom dialog
     - [ ] Enter table number to edit
     - [ ] Enter new table number
@@ -12,7 +13,8 @@
 - [ ] Clean up Layout TableTable list item layout
 - [ ] OrderFragment
 - [ ] Kitchen Screen (lots more to add)
-- [ ] Management Screen (lots more to add)
+- [ ] Manage Users Screen (lots more to add)
+- [ ] Statistics Screen (lots more to add)
 - [x] Log out button in OptionsMenu
 - [x] TableTable add table button
 - [x] TableTableActivity Started
