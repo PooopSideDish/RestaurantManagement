@@ -1,9 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.v4.view.ViewPager
+<FrameLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/order_view_pager"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/order_fragment_layout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:layout_margin="32dp" >
+    android:layout_height="match_parent">
 
-</android.support.v4.view.ViewPager>
+    <android.support.v4.view.ViewPager
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/order_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="32dp">
+    </android.support.v4.view.ViewPager>
+
+    <android.support.design.widget.FloatingActionButton
+    app:layout_anchor="@id/order_fragment_layout"
+    android:layout_gravity="bottom|right"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/fab_margin" />
+
+</FrameLayout>

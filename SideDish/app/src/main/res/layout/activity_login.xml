@@ -30,5 +30,4 @@
         android:textSize="18sp"
         android:text="@string/login"
         />
-
 </LinearLayout>

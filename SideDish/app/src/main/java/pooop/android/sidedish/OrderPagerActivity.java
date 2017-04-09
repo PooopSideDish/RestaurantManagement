@@ -24,7 +24,6 @@ public class OrderPagerActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
-        // TODO: Layout the OrderFragment, Set up the OrderViewPager and add the new order FAB
         setContentView(R.layout.activity_order_pager);
 
         final int tableNum = getIntent().getIntExtra(EXTRA_TABLE_NUM, 0);
