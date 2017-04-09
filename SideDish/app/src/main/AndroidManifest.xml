@@ -25,6 +25,11 @@
             android:label="@string/title_activity_wait_staff"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name=".OrderPagerActivity"
+            android:parentActivityName=".WaitStaffActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

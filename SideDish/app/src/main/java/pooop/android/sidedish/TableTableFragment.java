@@ -125,6 +125,8 @@ public class TableTableFragment extends Fragment{
             mTableNumberText  = (TextView) itemView.findViewById(R.id.table_number_text_view);
             mTableSectionText = (TextView) itemView.findViewById(R.id.table_section_text_view);
             mTableStatusText  = (TextView) itemView.findViewById(R.id.table_status_text_view);
+
+            itemView.setOnClickListener(this);
         }
 
         public void bind(Table table){

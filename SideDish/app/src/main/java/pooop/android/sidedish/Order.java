@@ -23,5 +23,6 @@ public class Order {
 
     public void addItem(SideDishMenuItem item){
         mItems.add(item);
+        mTotal += item.getPrice();
     }
 }
