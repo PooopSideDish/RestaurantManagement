@@ -1,11 +1,14 @@
 package pooop.android.sidedish;
 
-/* The Table Model. This will eventually store all of the orders for a given table */
+import java.util.ArrayList;
+import java.util.List;
+
 public class Table {
 
     private int mNum;
     private String mSection = "No Section";
     private String mStatus = "Empty";
+    private List<Order> mOrders;
 
     public Table(int tableNum){
         mNum = tableNum;
@@ -14,6 +17,7 @@ public class Table {
     public Table(int tableNum, String tableSection){
         mNum = tableNum;
         mSection = tableSection;
+        mOrders = new ArrayList<Order>();
     }
 
     public int getNumber(){
@@ -26,5 +30,17 @@ public class Table {
 
     public String getSection(){
         return mSection;
+    }
+
+    public List<Order> getOrders(){
+        return mOrders;
+    }
+
+    public void addOrder(Order o){
+        mOrders.add(o);
+    }
+
+    public void clearOrders(){
+        mOrders = new ArrayList<Order>();
     }
 }

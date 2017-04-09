@@ -26,6 +26,10 @@ public class TableController {
         return mTableList;
     }
 
+    public Table getTable(int tableNum){
+        return mTableList.get(tableNum - 1);
+    }
+
     public void addTable(String section){
         Table newTable = new Table(mTableList.size() + 1, section);
         mTableList.add(newTable);

@@ -1,6 +1,7 @@
 package pooop.android.sidedish;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -15,7 +16,7 @@ import android.widget.TextView;
 
 import java.util.List;
 
-public class TableTableFragment extends Fragment {
+public class TableTableFragment extends Fragment{
 
     private RecyclerView mTableRecyclerView;
     private TableAdapter mTableAdapter;
@@ -110,11 +111,13 @@ public class TableTableFragment extends Fragment {
         }
     }
 
-    private class TableHolder extends RecyclerView.ViewHolder {
+    private class TableHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mTableNumberText;
         private TextView mTableSectionText;
         private TextView mTableStatusText;
+
+        private Table mTable;
 
         public TableHolder(LayoutInflater inflater, ViewGroup parent) {
             super(inflater.inflate(R.layout.list_item_table, parent, false));
@@ -125,9 +128,17 @@ public class TableTableFragment extends Fragment {
         }
 
         public void bind(Table table){
+            mTable = table;
+
             mTableNumberText.setText( "Table Number: " + String.valueOf(table.getNumber()));
             mTableSectionText.setText("Section: "      + String.valueOf(table.getSection()));
             mTableStatusText.setText( "Status : "      + table.getStatus());
+        }
+
+        @Override
+        public void onClick(View v) {
+            Intent intent = OrderPagerActivity.newIntent(getActivity(), mTable);
+            startActivity(intent);
         }
     }
 }
