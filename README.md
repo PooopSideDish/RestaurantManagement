@@ -1,21 +1,26 @@
 # SideDish POOOP project
 
 ### TODO:
-- [ ] TableTable edit table button custom dialog
-    - [ ] Enter table number to edit
-    - [ ] Enter new table number
-    - [ ] Enter table section
-    - [ ] Cancel
-    - [ ] Accept Changes (none if table number not specified)
-    - [ ] Remove Table
-- [ ] Clean up Layout TableTable list item layout
-- [ ] OrderFragment
-- [ ] Kitchen Screen (lots more to add)
-- [ ] Manage Users Screen (lots more to add)
-- [ ] Statistics Screen (lots more to add)
-- [x] Add FAB to OrderPagerActivity
-- [x] Add OrderPagerActivity (To view table's orders)
-- [x] Log out button in OptionsMenu
-- [x] TableTable add table button
-- [x] TableTableActivity Started
-- [x] LoginActivity Started
+- [ ] Menu System
+    - [ ] Add in auto-complete text system
+    - [ ] Add/edit menu items
+
+- [ ] Table
+   - [ ] Add new order to table
+   - [ ] Edit or remove an item on the order
+   - [ ] Add new item to an existing order
+   - [ ] Submit order to database
+
+- [ ] Users
+   - [ ] Edit/add users
+   - [ ] Integrate log in with database
+
+- [ ] Kitchen view
+   - [ ] Pull current orders from database and display in order
+   - [ ] Set order status/flag
+
+- [ ] Statistics menu
+   - [ ] Display # of orders over period of time, rank by number (ie: show top 5)
+    
+
+- [ ] Make everything purdy
