@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -81,19 +80,28 @@ public class WaitStaffActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        // TODO: So.... what's suppose to be in NavBar again?
+        // TODO: Edit Menu, edit users
+        FragmentManager fm = getSupportFragmentManager();
 
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
         if (id == R.id.nav_camera) {
-            // Handle the camera action
+            // Change to TableTableFragment
+            TableTableFragment tableTableFragment = new TableTableFragment();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, tableTableFragment)
+                    .commit();
         } else if (id == R.id.nav_gallery) {
-
+            // Edit Users screen here?
         } else if (id == R.id.nav_slideshow) {
-
+            // See Kitchen screen?
         } else if (id == R.id.nav_manage) {
-
+            // Change to EditMenuFragment
+            EditMenuFragment editMenuFragment = new EditMenuFragment();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, editMenuFragment)
+                    .commit();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
