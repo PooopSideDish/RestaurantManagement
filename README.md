@@ -3,7 +3,7 @@
 ### TODO:
 - [ ] Menu System
     - [ ] Add in auto-complete text system
-    - [ ] Add/edit menu items
+    - [x] Add/edit menu items
 
 - [ ] Table
    - [ ] Add new order to table

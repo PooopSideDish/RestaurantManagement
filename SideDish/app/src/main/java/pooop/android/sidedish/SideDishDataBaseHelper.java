@@ -71,9 +71,14 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
                 new String[]{title, String.valueOf(price)});
     }
 
-    public void editMenuItem(String title, double price) {
-        mDatabase.execSQL("update menu set title=?, price=? where title=?;",
-                new String[]{title, String.valueOf(price), title});
+    public void editMenuItem(String oldTitle, String newTitle, double price) {
+        mDatabase.execSQL("UPDATE menu SET title=?, price=? WHERE title=?;",
+                new String[]{newTitle, String.valueOf(price), oldTitle});
+    }
+
+    // NOTE: if two menu items have the same name, this deletes them both! :D
+    public void deleteMenuItem(String title){
+        mDatabase.execSQL("DELETE FROM menu WHERE title=?", new String[]{title});
     }
 
 

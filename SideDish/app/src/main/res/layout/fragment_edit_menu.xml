@@ -27,15 +27,6 @@
             android:layout_height="wrap_content"
             android:text="New Menu Item"
             android:layout_margin="15dp"/>
-
-        <Button
-            android:id="@+id/edit_menu_item_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Edit Menu Item"
-            android:layout_margin="15dp"/>
-
-
     </LinearLayout>
 
 </LinearLayout>
