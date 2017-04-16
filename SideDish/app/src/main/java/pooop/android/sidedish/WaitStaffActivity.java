@@ -93,9 +93,13 @@ public class WaitStaffActivity extends AppCompatActivity
                     .replace(R.id.fragment_container, tableTableFragment)
                     .commit();
         } else if (id == R.id.nav_gallery) {
-            // Edit Users screen here?
-        } else if (id == R.id.nav_slideshow) {
             // See Kitchen screen?
+        } else if (id == R.id.nav_slideshow) {
+            // Edit Users screen here?
+            EditUsersFragment editUserFragment = new EditUsersFragment();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, editUserFragment)
+                    .commit();
         } else if (id == R.id.nav_manage) {
             // Change to EditMenuFragment
             EditMenuFragment editMenuFragment = new EditMenuFragment();

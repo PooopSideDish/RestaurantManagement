@@ -45,6 +45,57 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         return retList;
     }
 
+    /* add a new menu item to the database */
+    public void addMenuItem(String title, double price){
+        mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?, 0);",
+                new String[]{title, String.valueOf(price)});
+    }
+
+    public void editMenuItem(String oldTitle, String newTitle, double price) {
+        mDatabase.execSQL("UPDATE menu SET title=?, price=? WHERE title=?;",
+                new String[]{newTitle, String.valueOf(price), oldTitle});
+    }
+
+    // NOTE: if two menu items have the same name, this deletes them both! :D
+    public void deleteMenuItem(String title){
+        mDatabase.execSQL("DELETE FROM menu WHERE title=?", new String[]{title});
+    }
+
+    public ArrayList<Employee> getUsers(){
+        // It would be more elegant to use a CursorWrapper but we're short on time so...
+        Cursor cursor = mDatabase.rawQuery("SELECT id, type FROM users ORDER BY id ASC;", null);
+        ArrayList<Employee> retList = new ArrayList<>();
+
+        cursor.moveToFirst();
+        try {
+            while (!cursor.isAfterLast()) {
+                retList.add(new Employee(cursor.getString(0), cursor.getInt(1)));
+                cursor.moveToNext();
+            }
+        }
+        finally{
+            cursor.close();
+        }
+
+        return retList;
+    }
+
+    /* add a new menu item to the database */
+    public void addUser(String id, int type){
+        mDatabase.execSQL("INSERT INTO users VALUES (?, ?);",
+                new String[]{id, String.valueOf(type)});
+    }
+
+    public void editUser(String oldId, String newId, int type) {
+        mDatabase.execSQL("UPDATE users SET id=?, type=? WHERE id=?;",
+                new String[]{newId, String.valueOf(type), oldId});
+    }
+
+    public void deleteUser(String id){
+        mDatabase.execSQL("DELETE FROM users WHERE id=?", new String[]{id});
+    }
+
+
     /* Query the database to retrieve all the tables */
     public ArrayList<Table> getTables(){
         // It would be more elegant to use a CursorWrapper but we're short on time so...
@@ -63,22 +114,6 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         }
 
         return retList;
-    }
-
-    /* add a new menu item to the database */
-    public void addMenuItem(String title, double price){
-        mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?, 0);",
-                new String[]{title, String.valueOf(price)});
-    }
-
-    public void editMenuItem(String oldTitle, String newTitle, double price) {
-        mDatabase.execSQL("UPDATE menu SET title=?, price=? WHERE title=?;",
-                new String[]{newTitle, String.valueOf(price), oldTitle});
-    }
-
-    // NOTE: if two menu items have the same name, this deletes them both! :D
-    public void deleteMenuItem(String title){
-        mDatabase.execSQL("DELETE FROM menu WHERE title=?", new String[]{title});
     }
 
 

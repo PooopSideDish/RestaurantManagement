@@ -13,11 +13,13 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String MANAGER_LOGIN_TEST = "poop";
+    private static final String MANAGER_LOGIN_TEST = "pooop";
 
     private EditText mLoginEditText;
     private Button mLoginButton;
     private String mLoginStr = "";
+
+    private UserController mUserController;
 
     public static Intent newIntent(Context packageContext){
         Intent intent = new Intent(packageContext, LoginActivity.class);
@@ -28,6 +30,9 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mUserController = UserController.getInstance(this);
+
         setContentView(R.layout.activity_login);
 
         mLoginEditText = (EditText) findViewById(R.id.login_edit_text);
@@ -53,7 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(mLoginStr.equals(MANAGER_LOGIN_TEST)){
+                if(mUserController.isValidUser(mLoginStr) || mLoginStr.equals(MANAGER_LOGIN_TEST)){
                     Intent intent = WaitStaffActivity.newIntent(getApplicationContext());
                     startActivity(intent);
 
