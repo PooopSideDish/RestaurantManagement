@@ -11,9 +11,9 @@
    - [ ] Add new item to an existing order
    - [ ] Submit order to database
 
-- [ ] Users
-   - [ ] Edit/add users
-   - [ ] Integrate log in with database
+- [x] Users
+   - [x] Edit/add users
+   - [x] Integrate log in with database
 
 - [ ] Kitchen view
    - [ ] Pull current orders from database and display in order
