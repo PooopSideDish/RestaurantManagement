@@ -189,6 +189,7 @@ public class EditMenuFragment extends Fragment {
 
                     if(mDeleteItemFlag){
                         mMenuController.deleteMenuItem(mItem);
+                        mDeleteItemFlag = false;
                     }
                     else {
                         double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));

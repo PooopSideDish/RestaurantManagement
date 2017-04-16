@@ -11,23 +11,33 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 public class TableTableFragment extends Fragment{
 
+    private TableController mTableController;
+
     private RecyclerView mTableRecyclerView;
     private TableAdapter mTableAdapter;
     private Button mNewTableButton;
     private Button mEditTableButton;
+
+    private boolean mDeleteTableFlag;
 
     @Override
     public View onCreateView(LayoutInflater layoutInflater, ViewGroup container,
                              Bundle savedInstanceState){
 
         View view = layoutInflater.inflate(R.layout.fragment_table_table, container, false);
+
+        mTableController = TableController.getInstance(getActivity());
+        mDeleteTableFlag = false;
 
         mTableRecyclerView = (RecyclerView) view.findViewById(R.id.table_recycler_view);
         mTableRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -37,6 +47,7 @@ public class TableTableFragment extends Fragment{
             @Override
             public void onClick(View v) {
                 final EditText input = new EditText(getActivity());
+                input.setHint("Enter Table Section");
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                 builder.setTitle("Set Table's Section");
@@ -44,8 +55,7 @@ public class TableTableFragment extends Fragment{
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        TableController tc = TableController.getInstance(getActivity());
-                        tc.addTable(input.getText().toString());
+                        mTableController.addTable(input.getText().toString());
                         updateTableTable();
                     }
                 });
@@ -60,6 +70,68 @@ public class TableTableFragment extends Fragment{
                 builder.show();
             }
         });
+
+        mEditTableButton = (Button) view.findViewById(R.id.edit_table_button);
+        mEditTableButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v) {
+                // Building the custom dialog in the Java to save time...
+                LinearLayout layout = new LinearLayout(getActivity());
+                layout.setOrientation(LinearLayout.VERTICAL);
+
+                final EditText tableNumInput = new EditText(getActivity());
+                tableNumInput.setHint("Enter Table Number to Edit");
+                final EditText sectionInput = new EditText(getActivity());
+                sectionInput.setHint("Enter New Table Section");
+
+                final CheckBox deleteTable = new CheckBox(getActivity());
+                deleteTable.setText("Delete Menu Item");
+                deleteTable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+                    @Override
+                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                        // Toggle the flag
+                        mDeleteTableFlag= !mDeleteTableFlag;
+                    }
+                });
+
+                layout.addView(tableNumInput);
+                layout.addView(sectionInput);
+                layout.addView(deleteTable);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle("Edit Table");
+                builder.setView(layout);
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        int tableNum = Integer.parseInt(String.valueOf(tableNumInput.getText()));
+
+                        if(mDeleteTableFlag){
+                            mTableController.deleteTable(tableNum);
+                            mDeleteTableFlag = false;
+                        }
+                        else {
+                            String newSection = String.valueOf(sectionInput.getText());
+                            mTableController.editTable(tableNum, newSection);
+                        }
+
+                        updateTableTable();
+                    }
+                });
+
+                builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener(){
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        mDeleteTableFlag = false;
+                        dialog.cancel();
+                    }
+                });
+
+                builder.show();
+            }
+        });
+
+        updateTableTable();
 
         return view;
     }
@@ -132,9 +204,9 @@ public class TableTableFragment extends Fragment{
         public void bind(Table table){
             mTable = table;
 
-            mTableNumberText.setText( "Table Number: " + String.valueOf(table.getNumber()));
-            mTableSectionText.setText("Section: "      + String.valueOf(table.getSection()));
-            mTableStatusText.setText( "Status : "      + table.getStatus());
+            mTableNumberText.setText(String.valueOf(table.getNumber()));
+            mTableSectionText.setText(String.valueOf(table.getSection()));
+            mTableStatusText.setText(table.getStatus());
         }
 
         @Override

@@ -2,17 +2,18 @@
 
 ### TODO:
 - [ ] Menu System
+    - [x] add / edit / remove Menu Items in database
     - [ ] Add in auto-complete text system
-    - [x] Add/edit menu items
 
 - [ ] Table
+   - [x] add / edit / remove Table in database
    - [ ] Add new order to table
    - [ ] Edit or remove an item on the order
    - [ ] Add new item to an existing order
    - [ ] Submit order to database
 
 - [x] Users
-   - [x] Edit/add users
+   - [x] add / edit / remove Users in database
    - [x] Integrate log in with database
 
 - [ ] Kitchen view

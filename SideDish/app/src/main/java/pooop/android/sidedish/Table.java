@@ -37,7 +37,6 @@ public class Table {
         testOrder2.addItem(sdmi5);
         testOrder2.addItem(sdmi6);
         addOrder(testOrder2);
-
     }
 
     public int getNumber(){

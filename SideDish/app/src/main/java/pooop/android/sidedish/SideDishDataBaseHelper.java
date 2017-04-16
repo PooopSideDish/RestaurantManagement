@@ -45,7 +45,6 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         return retList;
     }
 
-    /* add a new menu item to the database */
     public void addMenuItem(String title, double price){
         mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?, 0);",
                 new String[]{title, String.valueOf(price)});
@@ -80,7 +79,6 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         return retList;
     }
 
-    /* add a new menu item to the database */
     public void addUser(String id, int type){
         mDatabase.execSQL("INSERT INTO users VALUES (?, ?);",
                 new String[]{id, String.valueOf(type)});
@@ -99,7 +97,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     /* Query the database to retrieve all the tables */
     public ArrayList<Table> getTables(){
         // It would be more elegant to use a CursorWrapper but we're short on time so...
-        Cursor cursor = mDatabase.rawQuery("SELECT id, section FROM tables ORDER BY title ASC;", null);
+        Cursor cursor = mDatabase.rawQuery("SELECT id, section FROM tables ORDER BY id ASC;", null);
         ArrayList<Table> retList = new ArrayList<>();
 
         cursor.moveToFirst();
@@ -114,6 +112,21 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         }
 
         return retList;
+    }
+
+    public void addTable(String section){
+        mDatabase.execSQL("INSERT INTO tables VALUES (null, ?);",
+                new String[]{section});
+    }
+
+    public void editTable(int tableNum, String newSection) {
+        mDatabase.execSQL("UPDATE tables SET section=? WHERE id=?;",
+                new String[]{newSection, String.valueOf(tableNum)});
+    }
+
+    public void deleteTable(int tableNum){
+        mDatabase.execSQL("DELETE FROM tables WHERE id=?;",
+                new String[]{String.valueOf(tableNum)});
     }
 
 

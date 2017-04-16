@@ -223,6 +223,7 @@ public class EditUsersFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
                     if(mDeleteUserFlag){
                         mUserController.deleteUser(mUser);
+                        mDeleteUserFlag = false;
                     }
                     else {
                         String id = String.valueOf(userIDInput.getText());

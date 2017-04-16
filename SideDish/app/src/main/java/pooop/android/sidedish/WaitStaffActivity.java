@@ -80,7 +80,6 @@ public class WaitStaffActivity extends AppCompatActivity
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
 
-        // TODO: Edit Menu, edit users
         FragmentManager fm = getSupportFragmentManager();
 
         // Handle navigation view item clicks here.
