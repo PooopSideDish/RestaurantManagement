@@ -1,26 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:layout_margin="10dp"
+    android:gravity="center_horizontal">
 
     <AutoCompleteTextView
         android:id="@+id/menu_item_auto_complete"
-        android:layout_width="match_parent"
+        android:layout_width="425dp"
         android:layout_height="wrap_content"
         android:textSize="24sp" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center_horizontal"
-        android:orientation="horizontal">
-
         <TextView
-            android:layout_width="wrap_content"
+            android:layout_width="20dp"
             android:layout_height="wrap_content"
-            android:padding="15dp"
+            android:layout_marginLeft="15dp"
             android:text="$"
             android:textSize="24sp"
         />
@@ -32,16 +28,15 @@
             android:textSize="24sp"
             tools:text="100.00"
         />
-    </LinearLayout>
 
     <Button
         android:id="@+id/menu_item_delete_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="18sp"
-        android:padding="20dp"
+        android:padding="15dp"
         android:layout_gravity="center_horizontal"
-        android:text="Remove   Item"
+        android:text="Remove  Item"
         android:layout_marginLeft="15dp"
         />
 
