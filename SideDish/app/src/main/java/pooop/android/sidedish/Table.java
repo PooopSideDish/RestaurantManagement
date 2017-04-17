@@ -18,25 +18,6 @@ public class Table {
         mNum = tableNum;
         mSection = tableSection;
         mOrders = new ArrayList<Order>();
-
-        // TEST Orders
-        Order testOrder = new Order();
-        SideDishMenuItem sdmi1 = new SideDishMenuItem("Dr. Pupper", 2.50);
-        SideDishMenuItem sdmi2 = new SideDishMenuItem("Coke in Kola", 2.50);
-        SideDishMenuItem sdmi3 = new SideDishMenuItem("Sweer Potato", 12.20);
-        SideDishMenuItem sdmi4 = new SideDishMenuItem("Tender Loins",10.15);
-        testOrder.addItem(sdmi1);
-        testOrder.addItem(sdmi2);
-        testOrder.addItem(sdmi3);
-        testOrder.addItem(sdmi4);
-        addOrder(testOrder);
-
-        Order testOrder2 = new Order();
-        SideDishMenuItem sdmi5 = new SideDishMenuItem("Ginger's Ale", 2.50);
-        SideDishMenuItem sdmi6 = new SideDishMenuItem("Eggs, Ben and Dick (Lunch)", 8.15);
-        testOrder2.addItem(sdmi5);
-        testOrder2.addItem(sdmi6);
-        addOrder(testOrder2);
     }
 
     public int getNumber(){

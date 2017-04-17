@@ -85,7 +85,7 @@ public class EditMenuFragment extends Fragment {
 
     private void updateEditMenuScreen(){
 
-        // Populate the list of tables
+        // Populate the list of orders
         if(mEditMenuAdapter == null){
             mEditMenuAdapter = new EditMenuAdapter(mMenuController.getMenu());
             mRecyclerView.setAdapter(mEditMenuAdapter);
@@ -137,10 +137,10 @@ public class EditMenuFragment extends Fragment {
         private boolean mDeleteItemFlag;
 
         public MenuItemHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.list_item_order, parent, false));
+            super(inflater.inflate(R.layout.list_edit_menu_item, parent, false));
 
-            mMenuItemTitle = (TextView) itemView.findViewById(R.id.menu_item_title_text_view);
-            mMenuItemPrice = (TextView) itemView.findViewById(R.id.menu_item_price_text_view);
+            mMenuItemTitle = (TextView) itemView.findViewById(R.id.edit_menu_item_title_text_view);
+            mMenuItemPrice = (TextView) itemView.findViewById(R.id.edit_menu_item_price_text_view);
 
             mDeleteItemFlag = false;
 
@@ -151,7 +151,7 @@ public class EditMenuFragment extends Fragment {
             mItem = item;
 
             mMenuItemTitle.setText(mItem.getTitle());
-            mMenuItemPrice.setText(String.valueOf(mItem.getPrice()));
+            mMenuItemPrice.setText(String.format("%.2f", mItem.getPrice()));
         }
 
         @Override

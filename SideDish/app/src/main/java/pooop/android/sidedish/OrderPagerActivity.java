@@ -36,7 +36,13 @@ public class OrderPagerActivity extends AppCompatActivity {
             @Override
             public int getCount() {
                 TableController tc = TableController.getInstance(OrderPagerActivity.this);
-                return tc.getTable(tableNum).getOrders().size();
+                int size = tc.getTable(tableNum).getOrders().size();
+
+                if(size <= 0){
+                    tc.getTable(tableNum).addOrder(new Order());
+                    return 1;
+                }
+                return size;
             }
 
             @Override

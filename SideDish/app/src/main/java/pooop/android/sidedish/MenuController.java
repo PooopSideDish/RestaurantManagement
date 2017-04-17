@@ -37,6 +37,17 @@ public class MenuController {
         mMenuItemList.add(newItem);
     }
 
+    public String[] getMenuTitles(){
+        String[] retArray = new String[mMenuItemList.size()];
+        for(int i = 0; i < mMenuItemList.size(); i++) retArray[i] = mMenuItemList.get(i).getTitle();
+        return retArray;
+    }
+
+    public SideDishMenuItem getMenuItemByName(String name){
+        if(name == null || name.length() <= 0) return null;
+        return mDBHelper.getMenuItemByName(name);
+    }
+
     public void editMenuItem(String oldTitle, String newTitle, double price){
         mDBHelper.editMenuItem(oldTitle, newTitle, price);
         // I don't know where the menu item that's being updated is at in the list, so just getting

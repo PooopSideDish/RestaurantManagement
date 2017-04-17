@@ -8,8 +8,8 @@
 - [ ] Table
    - [x] add / edit / remove Table in database
    - [ ] Add new order to table
-   - [ ] Edit or remove an item on the order
-   - [ ] Add new item to an existing order
+   - [x] Edit or remove an item on the order
+   - [x] Add new item to an existing order
    - [ ] Submit order to database
 
 - [x] Users

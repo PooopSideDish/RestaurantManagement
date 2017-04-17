@@ -45,6 +45,18 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         return retList;
     }
 
+    public SideDishMenuItem getMenuItemByName(String name){
+        Cursor cursor = mDatabase.rawQuery("SELECT title, price FROM menu WHERE title=?",
+                new String[]{name});
+        SideDishMenuItem retItem = null;
+        if(cursor.getCount() > 0){
+            cursor.moveToFirst();
+            retItem = new SideDishMenuItem(cursor.getString(0), cursor.getDouble(1));
+        }
+        cursor.close();
+        return retItem;
+    }
+
     public void addMenuItem(String title, double price){
         mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?, 0);",
                 new String[]{title, String.valueOf(price)});

@@ -3,10 +3,14 @@ package pooop.android.sidedish;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -22,6 +26,11 @@ public class OrderFragment extends Fragment {
     private MenuItemAdapter mMenuItemAdapter;
     private TextView mOrderTotal;
 
+    // TODO: If this fragment is paused, orders that have no items need to be removed from the table
+    // TODO: Add new order button functionality
+    // TODO: Remove order somehow (just remove all items?)
+    // TODO: Add order to table object
+    // TODO: Integrate orders with database (both with tables and with order queue system)
 
     public static OrderFragment newInstance(int tableNum, int orderNum){
         Bundle args = new Bundle();
@@ -39,14 +48,16 @@ public class OrderFragment extends Fragment {
         int tableNum = getArguments().getInt(ARG_TABLE_NUMBER);
         int orderNum = getArguments().getInt(ARG_ORDER_NUMBER);
 
+        // Get the order for this screen
         mOrder = TableController.getInstance(getActivity()).getTable(tableNum).getOrder(orderNum);
 
+        // setup view
         View view = inflater.inflate(R.layout.fragment_order, container, false);
 
         mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_items_list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        mOrderTotal = (TextView) view.findViewById(R.id.order_total_text_view);
 
+        mOrderTotal = (TextView) view.findViewById(R.id.order_total_text_view);
         mOrderTotal.setText(String.valueOf(mOrder.getTotal()));
 
         updateOrder();
@@ -56,68 +67,133 @@ public class OrderFragment extends Fragment {
 
     private void updateOrder(){
 
-        // Populate the list of tables
+        // Populate the list of orders
         if(mMenuItemAdapter == null){
-            mMenuItemAdapter = new MenuItemAdapter(mOrder.getItems());
+            mMenuItemAdapter = new MenuItemAdapter();
             mRecyclerView.setAdapter(mMenuItemAdapter);
         }
-        else mMenuItemAdapter.setMenuItems(mOrder.getItems());
 
-        // When returning to this fragment from some other screen, the list of tables will most
-        // likely need to be updated.
-        // Keeping it simple right now and just updating the entire RecyclerView set.
+        // Not very pretty but if a menu item is edited or added, just update the dataset
+        // orders will be relatively small
+        mOrderTotal.setText(String.format("%.2f", mOrder.getTotal()));
         mMenuItemAdapter.notifyDataSetChanged();
-
     }
 
     private class MenuItemAdapter extends RecyclerView.Adapter<MenuItemHolder> {
 
-        private List<SideDishMenuItem> mItems;
+        private MenuController mMenuController;
+        private String [] mMenuItemTitles;
 
-        public MenuItemAdapter(List<SideDishMenuItem> items){
-            mItems = items;
-        }
-
-        public void setMenuItems(List<SideDishMenuItem> items){
-            mItems = items;
+        public MenuItemAdapter(){
+            mMenuController = MenuController.getInstance(getActivity());
+            mMenuItemTitles = mMenuController.getMenuTitles();
         }
 
         @Override
         public int getItemCount() {
-            return mItems.size();
+            return mOrder.getItems().size() + 1; // +1 for the AutoCompleteTextView
         }
 
         @Override
         public MenuItemHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             LayoutInflater inflater = LayoutInflater.from(getActivity());
-            return new MenuItemHolder(inflater, parent);
+            return new MenuItemHolder(inflater, parent, mMenuItemTitles);
         }
 
         @Override
         public void onBindViewHolder(MenuItemHolder holder, int position) {
-            holder.bind(mItems.get(position));
+            holder.bind(position, mOrder.getItem(position));
+        }
+
+        /* Verify the user's input and set a menu item in the order. If bad input -> do nothing */
+        protected void setPosition(int position, String userInput){
+
+            SideDishMenuItem newItem = mMenuController.getMenuItemByName(userInput);
+
+            // Check for valid input
+            if(newItem == null) return;
+
+            // Case 1: user is entering a new item
+            if(position >= mOrder.getItems().size()) mOrder.addItem(newItem);
+
+            // Case 2: user is editing a preexisting item
+            else mOrder.setItem(position, newItem);
+
+            updateOrder();
         }
     }
 
     private class MenuItemHolder extends RecyclerView.ViewHolder {
 
-        private TextView mMenuItemTitle;
+        private AutoCompleteTextView mAutoCompleteTextView;
         private TextView mMenuItemPrice;
+        private Button mDeleteItemButton;
 
         private SideDishMenuItem mItem;
 
-        public MenuItemHolder(LayoutInflater inflater, ViewGroup parent) {
+        private Integer mPosition;
+
+        public MenuItemHolder(LayoutInflater inflater, ViewGroup parent, String[] menuItemTitles) {
             super(inflater.inflate(R.layout.list_item_order, parent, false));
 
-            mMenuItemTitle = (TextView) itemView.findViewById(R.id.menu_item_title_text_view);
+            mAutoCompleteTextView = (AutoCompleteTextView) itemView
+                    .findViewById(R.id.menu_item_auto_complete);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(),
+                    android.R.layout.simple_dropdown_item_1line, menuItemTitles);
+            mAutoCompleteTextView.setAdapter(adapter);
+            mAutoCompleteTextView.setOnDismissListener(new AutoCompleteTextView.OnDismissListener(){
+                @Override
+                public void onDismiss() {
+                    // Only set position if there was a change in the text
+                    String input = String.valueOf(mAutoCompleteTextView.getText());
+                    if(mItem == null || !mItem.getTitle().equals(input)){
+                        mMenuItemAdapter.setPosition(mPosition, input);
+                    }
+                }
+            });
+            mAutoCompleteTextView.setValidator(new AutoCompleteTextView.Validator() {
+                @Override
+                public boolean isValid(CharSequence text) {
+                    return false; // not actually used...
+                }
+                @Override
+                public CharSequence fixText(CharSequence invalidText) {
+                    // Adding a new item, do nothing
+                    if(mItem == null) return String.valueOf(invalidText);
+
+                    // Editing an item to invalid text, reset to original item's text
+                    return mItem.getTitle();
+                }
+            });
+
             mMenuItemPrice = (TextView) itemView.findViewById(R.id.menu_item_price_text_view);
+
+            mDeleteItemButton = (Button) itemView.findViewById(R.id.menu_item_delete_button);
+            mDeleteItemButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    mOrder.removeItem(mPosition);
+                    updateOrder();
+                }
+            });
         }
 
-        public void bind(SideDishMenuItem item){
-            mItem = item;
+        public void bind(Integer position, SideDishMenuItem item){
 
-            mMenuItemTitle.setText(mItem.getTitle());
-            mMenuItemPrice.setText(String.valueOf(mItem.getPrice()));
+            mPosition = position;
+
+            if(item == null) {
+                mItem = null;
+                mMenuItemPrice.setText("");
+                mAutoCompleteTextView.setText("");
+                mDeleteItemButton.setClickable(false);
+            }
+            else {
+                mItem = item;
+                mMenuItemPrice.setText(String.format("%.2f", mItem.getPrice()));
+                mAutoCompleteTextView.setText(mItem.getTitle());
+                mDeleteItemButton.setClickable(true);
+            }
         }
     }
 }
