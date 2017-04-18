@@ -85,21 +85,19 @@ public class WaitStaffActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_view_tables) {
             // Change to TableTableFragment
             TableTableFragment tableTableFragment = new TableTableFragment();
             fm.beginTransaction()
                     .replace(R.id.fragment_container, tableTableFragment)
                     .commit();
-        } else if (id == R.id.nav_gallery) {
-            // See Kitchen screen?
-        } else if (id == R.id.nav_slideshow) {
+        }else if (id == R.id.nav_manage_users) {
             // Edit Users screen here?
             EditUsersFragment editUserFragment = new EditUsersFragment();
             fm.beginTransaction()
                     .replace(R.id.fragment_container, editUserFragment)
                     .commit();
-        } else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_manage_menu) {
             // Change to EditMenuFragment
             EditMenuFragment editMenuFragment = new EditMenuFragment();
             fm.beginTransaction()
