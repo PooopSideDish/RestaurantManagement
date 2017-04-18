@@ -32,6 +32,10 @@ public class Table {
         return mSection;
     }
 
+    public int getNumOrders(){
+        return mOrders.size();
+    }
+
     public List<Order> getOrders(){
         return mOrders;
     }
