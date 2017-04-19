@@ -69,7 +69,7 @@
         android:layout_height="750dp"
         android:layout_width="match_parent"
         android:layout_margin="20dp"
-        android:paddingTop="15dp"
+
         >
     </android.support.v7.widget.RecyclerView>
 

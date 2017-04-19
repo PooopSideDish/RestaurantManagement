@@ -4,8 +4,10 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
@@ -27,14 +29,14 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
     /* Query the database to retrieve all the menu items */
     public ArrayList<SideDishMenuItem> getMenu(){
-        // It would be more elegant to use a CursorWrapper but we're short on time so...
-        Cursor cursor = mDatabase.rawQuery("SELECT title, price FROM menu ORDER BY title ASC;", null);
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM menu ORDER BY title ASC;", null);
         ArrayList<SideDishMenuItem> retList = new ArrayList<>();
 
         cursor.moveToFirst();
         try {
             while (!cursor.isAfterLast()) {
-                retList.add(new SideDishMenuItem(cursor.getString(0), cursor.getDouble(1)));
+                //                                    item title            item price         item id
+                retList.add(new SideDishMenuItem(cursor.getString(1), cursor.getDouble(2), cursor.getInt(0)));
                 cursor.moveToNext();
             }
         }
@@ -46,19 +48,20 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     }
 
     public SideDishMenuItem getMenuItemByName(String name){
-        Cursor cursor = mDatabase.rawQuery("SELECT title, price FROM menu WHERE title=?",
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM menu WHERE title=?",
                 new String[]{name});
         SideDishMenuItem retItem = null;
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
-            retItem = new SideDishMenuItem(cursor.getString(0), cursor.getDouble(1));
+            //                                    item title            item price         item id
+            retItem = new SideDishMenuItem(cursor.getString(1), cursor.getDouble(2), cursor.getInt(0));
         }
         cursor.close();
         return retItem;
     }
 
     public void addMenuItem(String title, double price){
-        mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?, 0);",
+        mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?);",
                 new String[]{title, String.valueOf(price)});
     }
 
@@ -72,8 +75,18 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         mDatabase.execSQL("DELETE FROM menu WHERE title=?", new String[]{title});
     }
 
+    public int getMenuItemIDByTitle(String title){
+        Cursor cursor = mDatabase.rawQuery("SELECT id FROM menu WHERE title=?",
+                new String[]{title});
+
+        cursor.moveToFirst();
+        int id = cursor.getInt(0);
+        cursor.close();
+
+        return id;
+    }
+
     public ArrayList<Employee> getUsers(){
-        // It would be more elegant to use a CursorWrapper but we're short on time so...
         Cursor cursor = mDatabase.rawQuery("SELECT id, type FROM users ORDER BY id ASC;", null);
         ArrayList<Employee> retList = new ArrayList<>();
 
@@ -105,29 +118,101 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         mDatabase.execSQL("DELETE FROM users WHERE id=?", new String[]{id});
     }
 
-
     /* Query the database to retrieve all the tables */
-    public ArrayList<Table> getTables(){
-        // It would be more elegant to use a CursorWrapper but we're short on time so...
-        Cursor cursor = mDatabase.rawQuery("SELECT id, section FROM tables ORDER BY id ASC;", null);
-        ArrayList<Table> retList = new ArrayList<>();
+    public ArrayList<Table> getTables() {
+        // Selecting all existing tables
+        Cursor tableCursor = mDatabase.rawQuery("SELECT id, section, status FROM tables ORDER BY id ASC;", null);
+        ArrayList<Table> tableList = new ArrayList<>();
 
-        cursor.moveToFirst();
-        try {
-            while (!cursor.isAfterLast()) {
-                retList.add(new Table(cursor.getInt(0), cursor.getString(1)));
-                cursor.moveToNext();
-            }
+        Log.d("LOG:", "Getting all tables from database");
+        Log.d("LOG:", "There are *" + tableCursor.getCount() + "* tables");
+
+        tableCursor.moveToFirst();
+        while (!tableCursor.isAfterLast()) {
+            //                           tableNum                    section                  status
+            Table newTable = new Table(tableCursor.getInt(0), tableCursor.getString(1), tableCursor.getInt(2));
+            Log.d("LOG:", "Retrieved Table #" + tableCursor.getInt(0));
+
+            // Fetch all the active orders that belong to this table
+            newTable.addOrders(getOrdersByTableID(newTable.getNumber()));
+
+            tableList.add(newTable);
+            tableCursor.moveToNext();
         }
-        finally{
-            cursor.close();
+        tableCursor.close();
+
+        return tableList;
+    }
+
+    /* Query the database and build all orders for a specified table */
+    public ArrayList<Order> getOrdersByTableID(int tableID) {
+        // Selecting all active orders
+        Cursor orderCursor = mDatabase.rawQuery("SELECT orders.id, orders.order_status, orders.table_id " +
+                "FROM orders WHERE orders.table_id==?;", new String[]{String.valueOf(tableID)});
+        ArrayList<Order> orderList = new ArrayList<>();
+
+        Log.d("LOG:", "Getting all orders for table #" + tableID + " from database");
+        Log.d("LOG:", "There are *" + orderCursor.getCount() + "* orders");
+
+        orderCursor.moveToFirst();
+        while(!orderCursor.isAfterLast()) {
+            /* TESTING */
+            Log.d("LOG:", "Retrieved order id = " + orderCursor.getInt(0) + " associated with table id = " + orderCursor.getInt(2));
+            /* TESTING */
+
+            //                               order id          order status as int
+            Order newOrder = new Order(orderCursor.getInt(0), orderCursor.getInt(1));
+            newOrder.addItems(getMenuItemsByOrderID(newOrder.getNumber()));
+
+            orderList.add(newOrder);
+            orderCursor.moveToNext();
+        }
+        orderCursor.close();
+
+        return orderList;
+    }
+
+    /* Query the database and build all items for a specified order */
+    public ArrayList<SideDishMenuItem> getMenuItemsByOrderID(int orderNum) {
+        Log.d("LOG:", "Getting all items for order #" + orderNum + " from database");
+
+        ArrayList<SideDishMenuItem> itemList = new ArrayList<>();
+
+        // First get a set of all menu item ids
+        String queryOrderDetails = "SELECT menu_item_id, menu_item_comment, menu_item_status, order_number " +
+                "FROM order_details " +
+                "WHERE order_number==?";
+        Cursor detailsCursor = mDatabase.rawQuery(queryOrderDetails,new String[]{String.valueOf(orderNum)});
+
+        Log.d("LOG:", "There are *" + detailsCursor.getCount() + "* items");
+
+        // Now use that result set to get the menu items (we're going to get fancy here)
+        detailsCursor.moveToFirst();
+        while(!detailsCursor.isAfterLast()) {
+            String itemId = String.valueOf(detailsCursor.getInt(0));
+            String queryMenuItems = "SELECT title, price, id FROM menu WHERE id==?";
+            Cursor itemCursor = mDatabase.rawQuery(queryMenuItems, new String[]{itemId});
+
+
+            // Build a menu item object from the two cursors
+            itemCursor.moveToFirst();
+            Log.d("LOG:", "Retrieved item: " + itemCursor.getString(0) + " associated with order id = " + detailsCursor.getInt(3));
+            String title = itemCursor.getString(0);
+            double price = itemCursor.getDouble(1);
+            String comment = detailsCursor.getString(1);
+            int status = detailsCursor.getInt(2);
+
+            itemList.add(new SideDishMenuItem(title, price, comment, status, detailsCursor.getInt(0)));
+
+            itemCursor.close();
+            detailsCursor.moveToNext();
         }
 
-        return retList;
+        return itemList;
     }
 
     public void addTable(String section){
-        mDatabase.execSQL("INSERT INTO tables VALUES (null, ?);",
+        mDatabase.execSQL("INSERT INTO tables VALUES (null, ?, 0);",
                 new String[]{section});
     }
 
@@ -141,6 +226,86 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
                 new String[]{String.valueOf(tableNum)});
     }
 
+    public ArrayList<Order> getOrderQueue(){
+        ArrayList<Order> queue = new ArrayList<>();
+        // TODO: get queue working
+        return queue;
+    }
+
+    /* Add an order to the queue */
+    public void submitOrder(Order o){
+        // TODO: submit order to db queue
+    }
+
+    /* Add a new, empty order to the database */
+    public Order addNewOrder(int tableNum){
+        // Insert a new order with no items
+        mDatabase.execSQL("INSERT INTO orders VALUES (null, 0, ?);",
+                new String[]{String.valueOf(tableNum)});
+
+        // Grab the last inserted item's id (the new order)
+        // Use that id as the order number.
+        Cursor cursor = mDatabase.rawQuery("SELECT last_insert_rowid() FROM orders;", null);
+
+        cursor.moveToFirst();
+        Order newOrder = new Order(cursor.getInt(0));
+        cursor.close();
+
+        return newOrder;
+    }
+
+    public void removeOrderFromTable(int orderNum, int tableNum){
+        // Cascading delete should take care of every dependency
+        mDatabase.execSQL("DELETE FROM orders WHERE id==? AND table_id==?",
+                new String[]{String.valueOf(orderNum), String.valueOf(tableNum)});
+    }
+
+    public void removeAllOrdersFromTable(Table table){
+        // Cascading delete should take care of every dependency
+        String tableID = String.valueOf(table.getNumber());
+        mDatabase.execSQL("DELETE FROM orders WHERE table_id==?;",
+                new String[]{tableID});
+    }
+
+    public void addItemToOrder(int orderNum, SideDishMenuItem newItem){
+
+        String itemID = String.valueOf(newItem.getID());
+        String itemComment = newItem.getComment();
+        String itemStatus  = String.valueOf(newItem.getStatusInt());
+        Log.d("LOG:", "Inserting menu item #" + itemID + " into order #" + orderNum);
+        mDatabase.execSQL("INSERT INTO order_details VALUES (?, ?, ?, ?);",
+                new String[]{String.valueOf(itemID), itemComment, itemStatus, String.valueOf(orderNum)});
+    }
+
+    /* Remove exactly 1 item from the order */
+    /* Android doesn't allow DELETE FROM ... WHERE ... LIMIT ... so I'm using this subquery hack
+     * to handle duplicates */
+    public void removeItemFromOrder(int orderNum, SideDishMenuItem item){
+        mDatabase.execSQL("DELETE FROM order_details WHERE " +
+                "_rowid_==(SELECT _rowid_ FROM order_details WHERE order_number==? AND menu_item_id==? LIMIT 1);",
+                new String[]{String.valueOf(orderNum), String.valueOf(item.getID())});
+    }
+
+    /* Add an order to the history */
+    public void recordOrder(Order o){
+        // Generate a time stamp for the database
+        // Calendars are easy to set for statistics so using Calendar object instead of Date object
+        Calendar c = Calendar.getInstance();
+        String year   = String.valueOf(c.get(Calendar.YEAR));
+        String month  = String.valueOf(c.get(Calendar.MONTH));
+        String day    = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+        String hour   = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
+        String minute = String.valueOf(c.get(Calendar.MINUTE));
+        String second = String.valueOf(c.get(Calendar.SECOND));
+
+        // For every title, insert a title and date into the history
+        for(int i=0; i < o.getItems().size(); i++){
+            String title = o.getItems().get(i).getTitle();
+            mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, " +
+                    "(SELECT id FROM menu WHERE title=?)" +
+                    ");", new String[]{year, month, day, hour, minute, second, title});
+        }
+    }
 
     /* Create all the tables for the database if it doesn't exist */
     @Override
@@ -148,23 +313,57 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         mDatabase = db;
 
         // Table of tables
-        mDatabase.execSQL("CREATE TABLE tables (id INTEGER PRIMARY KEY, section TEXT COLLATE NOCASE);");
+        // status: 0 -> empty, 1 -> has orders
+        mDatabase.execSQL("CREATE TABLE tables (" +
+                "id INTEGER PRIMARY KEY, "        +
+                "section TEXT COLLATE NOCASE, "   +
+                "status INTEGER);");
 
         // Menu items table
-        // sales count counts how many times each menu item has been sold total (for easy statistics)
-        mDatabase.execSQL("CREATE TABLE menu " +
-                "(id INTEGER PRIMARY KEY, title TEXT COLLATE NOCASE, price FLOAT, sales_count INTEGER);");
+        mDatabase.execSQL("CREATE TABLE menu (" +
+                "id INTEGER PRIMARY KEY, "      +
+                "title TEXT COLLATE NOCASE, "   +
+                "price DOUBLE);");
 
-        // Table of all previous orders taken (for statistics)
-        // month column is numbered [1,12] (1 -> Jan, ... 12 -> Dec)
-        // item_id will map to the id column of the menu item table
-        mDatabase.execSQL("CREATE TABLE history " +
-                "(year INTEGER, month INTEGER, day INTEGER item_id INTEGER);");
+        // Table of active orders
+        // order_status: 0 -> new, 1 -> pending, 2 -> in progress, 3 -> complete
+        mDatabase.execSQL("CREATE TABLE orders (" +
+                "id INTEGER PRIMARY KEY, "        +
+                "order_status INTEGER, "          +
+                "table_id INTEGER REFERENCES tables(id) ON DELETE CASCADE);");
+
+        // This table lists all of the menu items contained by the active orders
+        // It is simply a list of menu items which are associated with an order id
+        // Each menu item has a status: 0 -> pending, 1 -> in progress, 2 -> complete
+        // When all the statuses are complete, the associated order is complete
+        mDatabase.execSQL("CREATE TABLE order_details (" +
+                "menu_item_id INTEGER REFERENCES menu(id) ON DELETE CASCADE, "  +
+                "menu_item_comment TEXT, "   +
+                "menu_item_status INTEGER, " +
+                "order_number INTEGER REFERENCES orders(id) ON DELETE CASCADE);" );
+
+        // This is the queue for the kitchen
+        // It is a list of orders associated with the date that they were submitted
+        // Not using timestamps here because not using timestamps in the history table
+        mDatabase.execSQL("CREATE TABLE order_queue (" +
+                "year INTEGER, month INTEGER, day INTEGER, hour INTEGER, minute INTEGER, second INTEGER, " +
+                "order_number INTEGER REFERENCES orders(id) ON DELETE CASCADE);");
 
         // Users table
         // Using implicit primary key id. The id column is the user's id used to login
-        // type integer distinguishes privaleges: 1 -> manager, 2 -> waitstaff, 3 -> kitchen
-        mDatabase.execSQL("CREATE TABLE users (id TEXT COLLATE NOCASE, type INTEGER)");
+        // type integer distinguishes privileges: 1 -> manager, 2 -> waitstaff, 3 -> kitchen
+        mDatabase.execSQL("CREATE TABLE users (" +
+                "id TEXT COLLATE NOCASE, " +
+                "password TEXT, "          +
+                "type INTEGER)");
+
+        // Table of all previous orders taken (for statistics)
+        // month column is numbered [1,12] (1 -> Jan, ... 12 -> Dec)
+        // Not using timestamps because setting a Calendar object is easier if I can just pull
+        // integer values out of the query and not deal with conversions
+        mDatabase.execSQL("CREATE TABLE history (" +
+                "year INTEGER, month INTEGER, day INTEGER, hour INTEGER, minute INTEGER, second INTEGER, " +
+                "menu_item_id INTEGER REFERENCES menu(id) ON DELETE CASCADE);");
     }
 
     @Override

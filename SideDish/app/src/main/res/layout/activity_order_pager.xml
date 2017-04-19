@@ -23,10 +23,22 @@
 
         <android.support.design.widget.FloatingActionButton
             app:layout_anchor="@id/order_fragment_layout"
+            android:id="@+id/delete_order_floating_button"
+            android:layout_width="75dp"
+            android:layout_height="75dp"
+            android:layout_margin="@dimen/fab_margin"
+            android:backgroundTint="@color/red"
+            android:src="@drawable/big_x_symbol"
+            />
+
+        <android.support.design.widget.FloatingActionButton
+            app:layout_anchor="@id/order_fragment_layout"
             android:id="@+id/submit_order_floating_button"
             android:layout_width="75dp"
             android:layout_height="75dp"
-            android:layout_margin="@dimen/fab_margin" />
+            android:layout_margin="@dimen/fab_margin"
+            android:src="@drawable/check_mark_symbol"
+            />
 
         <android.support.design.widget.FloatingActionButton
             app:layout_anchor="@id/order_fragment_layout"

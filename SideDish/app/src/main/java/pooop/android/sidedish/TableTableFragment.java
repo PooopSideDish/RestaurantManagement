@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,6 +17,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -55,6 +57,7 @@ public class TableTableFragment extends Fragment{
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        Log.d("LOG:", "Adding a new table");
                         mTableController.addTable(input.getText().toString());
                         updateTableTable();
                     }
@@ -85,7 +88,7 @@ public class TableTableFragment extends Fragment{
                 sectionInput.setHint("Enter New Table Section");
 
                 final CheckBox deleteTable = new CheckBox(getActivity());
-                deleteTable.setText("Delete Menu Item");
+                deleteTable.setText("Delete Table");
                 deleteTable.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
                     @Override
                     public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -104,8 +107,29 @@ public class TableTableFragment extends Fragment{
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        int tableNum = Integer.parseInt(String.valueOf(tableNumInput.getText()));
+                        String tableNumInputText = String.valueOf(tableNumInput.getText());
+                        int tableNum;
 
+                        // Ensure valid input
+                        if(tableNumInputText == null || tableNumInputText.equals("")) {
+                            tableNum = -1;
+                        }
+                        else {
+                            try {
+                                tableNum = Integer.parseInt(tableNumInputText);
+                            } catch (NumberFormatException e) {
+                                tableNum = -1;
+                            }
+                        }
+                        if(tableNum == -1){
+                            Toast.makeText(getActivity(),
+                                    "You must specify a valid table and section!",
+                                    Toast.LENGTH_SHORT).show();
+                            dialog.cancel();
+                            return;
+                        }
+
+                        // Check for delete
                         if(mDeleteTableFlag){
                             mTableController.deleteTable(tableNum);
                             mDeleteTableFlag = false;
@@ -150,7 +174,6 @@ public class TableTableFragment extends Fragment{
         // likely need to be updated.
         // Keeping it simple right now and just updating the entire RecyclerView set.
         mTableAdapter.notifyDataSetChanged();
-
     }
 
     private class TableAdapter extends RecyclerView.Adapter<TableHolder> {
@@ -212,6 +235,7 @@ public class TableTableFragment extends Fragment{
         @Override
         public void onClick(View v) {
             Intent intent = OrderPagerActivity.newIntent(getActivity(), mTable);
+            Log.d("LOG:", "Staring OrderFragment with table #: " + mTable.getNumber());
             startActivity(intent);
         }
     }

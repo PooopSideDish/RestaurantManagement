@@ -85,6 +85,8 @@ public class WaitStaffActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
+        // TODO: order view is kitchen view
+
         if (id == R.id.nav_view_tables) {
             // Change to TableTableFragment
             TableTableFragment tableTableFragment = new TableTableFragment();
@@ -92,7 +94,7 @@ public class WaitStaffActivity extends AppCompatActivity
                     .replace(R.id.fragment_container, tableTableFragment)
                     .commit();
         }else if (id == R.id.nav_manage_users) {
-            // Edit Users screen here?
+            // Change to EditUsersScreen
             EditUsersFragment editUserFragment = new EditUsersFragment();
             fm.beginTransaction()
                     .replace(R.id.fragment_container, editUserFragment)

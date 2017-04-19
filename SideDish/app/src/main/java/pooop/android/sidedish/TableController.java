@@ -2,7 +2,6 @@ package pooop.android.sidedish;
 
 import android.content.Context;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class TableController {
@@ -21,11 +20,11 @@ public class TableController {
     private TableController(Context context) {
         mContext = context.getApplicationContext();
         mDBHelper = new SideDishDataBaseHelper(mContext);
-        mTableList = new ArrayList<Table>();
         mTableList = mDBHelper.getTables();
     }
 
     public List<Table> getTables(){
+        mTableList = mDBHelper.getTables();
         return mTableList;
     }
 
@@ -51,6 +50,20 @@ public class TableController {
                 return;
             }
         }
+    }
+
+    public void removeOrderFromTable(int orderIndex, Table table){
+        int orderID = table.getOrder(orderIndex).getNumber();
+        int tableNum = table.getNumber();
+
+        mDBHelper.removeOrderFromTable(orderID, tableNum);
+
+        // Update everything because it's 4:00 AM and I can no longer think
+        mTableList = mDBHelper.getTables();
+    }
+
+    public void removeAllOrdersFromTable(Table table){
+        mDBHelper.removeAllOrdersFromTable(table);
     }
 
     public void deleteTable(int tableNum){

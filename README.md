@@ -1,13 +1,13 @@
 # SideDish POOOP project
 
 ### TODO:
-- [ ] Menu System
+- [x] Menu System
     - [x] add / edit / remove Menu Items in database
-    - [ ] Add in auto-complete text system
+    - [x] Add in auto-complete text system
 
 - [ ] Table
    - [x] add / edit / remove Table in database
-   - [ ] Add new order to table
+   - [x] Add new order to table
    - [x] Edit or remove an item on the order
    - [x] Add new item to an existing order
    - [ ] Submit order to database

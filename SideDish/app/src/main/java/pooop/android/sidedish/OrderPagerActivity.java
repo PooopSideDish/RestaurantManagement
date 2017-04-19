@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 public class OrderPagerActivity extends AppCompatActivity {
@@ -18,8 +19,11 @@ public class OrderPagerActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
     private FloatingActionButton mAddOrderButton;
-    private FloatingActionButton mSubmitAllOrdersButton;
+    private FloatingActionButton mSubmitOrderButton;
+    private FloatingActionButton mDeleteOrderButton;
     private Table mTable;
+    private TableController mTableController;
+    private OrderController mOrderController;
 
     public static Intent newIntent(Context packageContext, Table table){
         Intent intent = new Intent(packageContext, OrderPagerActivity.class);
@@ -27,14 +31,20 @@ public class OrderPagerActivity extends AppCompatActivity {
         return intent;
     }
 
+    // TODO: TableTableFragment finished. Walk through order process from here. Starting at table click.
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_pager);
 
         final int tableNum = getIntent().getIntExtra(EXTRA_TABLE_NUM, 0);
-        TableController tc = TableController.getInstance(OrderPagerActivity.this);
-        mTable = tc.getTable(tableNum);
+        mTableController = TableController.getInstance(OrderPagerActivity.this);
+        mTable = mTableController.getTable(tableNum);
+
+        Log.d("LOG:", "Started Order Pager using table #: " + mTable.getNumber());
+
+        mOrderController = OrderController.getInstance(this);
 
         mViewPager = (ViewPager) findViewById(R.id.order_view_pager);
 
@@ -56,16 +66,45 @@ public class OrderPagerActivity extends AppCompatActivity {
             }
         });
 
-        mSubmitAllOrdersButton = (FloatingActionButton) findViewById(R.id.submit_order_floating_button);
-        mSubmitAllOrdersButton.setOnClickListener(new View.OnClickListener(){
+        mSubmitOrderButton = (FloatingActionButton) findViewById(R.id.submit_order_floating_button);
+        mSubmitOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
+                // TODO: Submit specific order to the Queue
+            }
+        });
 
+        mDeleteOrderButton = (FloatingActionButton) findViewById(R.id.delete_order_floating_button);
+        mDeleteOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v){
+                // TODO: add warning dialog here to confirm deletion
+
+
+                // Get the order's index from the PagerAdapter
+                int curIndex = mViewPager.getCurrentItem();
+                mTableController.removeOrderFromTable(curIndex, mTable);
+                mTable.removeOrder(curIndex);
+
+                // Too tired to slog through stack exchange and figure out how to properly remove
+                // a page so here I'm actually just resetting the whole thing. It works great!
+                mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+                mViewPager.setAdapter(mPagerAdapter);
+
+                // If divide by zero exception, the table is out of orders
+                try {
+                    mViewPager.setCurrentItem((curIndex + 1) % mTable.getNumOrders());
+                } catch(ArithmeticException e){
+                    mTableController.removeAllOrdersFromTable(mTable);
+                    finish();
+                }
             }
         });
     }
 
     private class PagerAdapter extends FragmentStatePagerAdapter{
+
+        private int mCurItem = 0;
 
         public PagerAdapter(FragmentManager fm){
             super(fm);
@@ -74,23 +113,26 @@ public class OrderPagerActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             int size = mTable.getNumOrders();
+            // Log.d("LOG:", "Table # " + mTable.getNumber() + " has *" + mTable.getNumOrders() + "* orders");
 
-            if(size <= 0){
-                mTable.addOrder(new Order());
-                return 1;
-            }
-            return size;
+            return (size <= 0 ? 1 : size);
         }
 
         @Override
         public Fragment getItem(int position) {
-            return OrderFragment.newInstance(mTable.getNumber(), position + 1);
+            mCurItem = position;
+            Log.d("LOG:",String.valueOf(mTable.getNumOrders() <= position));
+            return OrderFragment.newInstance(mTable.getNumber(), position, mTable.getNumOrders() <= position);
         }
 
         /* Adds a blank order to the table and adds a new page to the ViewPager to display it */
         public void addPage(){
-            mTable.addOrder(new Order());
+            mTable.addOrder(mOrderController.addNewOrder(mTable.getNumber()));
             notifyDataSetChanged();
+        }
+
+        public int getCurrentItem(){
+            return mCurItem;
         }
     }
 }

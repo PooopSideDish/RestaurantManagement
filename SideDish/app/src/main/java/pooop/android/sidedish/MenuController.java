@@ -31,10 +31,7 @@ public class MenuController {
     public void addMenuItem(String title, double price){
         // add to the database
         mDBHelper.addMenuItem(title, price);
-
-        // add to the list
-        SideDishMenuItem newItem = new SideDishMenuItem(title, price);
-        mMenuItemList.add(newItem);
+        mMenuItemList = mDBHelper.getMenu();
     }
 
     public String[] getMenuTitles(){

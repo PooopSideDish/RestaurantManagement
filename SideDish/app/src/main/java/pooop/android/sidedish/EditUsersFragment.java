@@ -31,7 +31,6 @@ public class EditUsersFragment extends Fragment {
 
     private int mNewUserType = 0; // 1 -> Manager, 2 -> Waitstaff, 3 -> Kitchen
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {

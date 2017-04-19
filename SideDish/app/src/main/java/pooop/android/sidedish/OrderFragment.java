@@ -1,10 +1,10 @@
 package pooop.android.sidedish;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,28 +15,30 @@ import android.widget.TextView;
 
 public class OrderFragment extends Fragment {
 
-    private static final String ARG_ORDER_NUMBER = "order_number";
+    private static final String ARG_ORDER_INDEX  = "order_index";
     private static final String ARG_TABLE_NUMBER = "table_number";
 
+    private Table mTable;
     private Order mOrder;
+    private OrderController mOrderController;
 
     private RecyclerView mRecyclerView;
     private MenuItemAdapter mMenuItemAdapter;
     private TextView mOrderTotal;
 
-    // TODO: If this fragment is paused, orders that have no items need to be removed from the table
-    // TODO: Add new order button functionality
     // TODO: Remove order somehow (just remove all items?)
-    // TODO: Add order to table object
-    // TODO: Integrate orders with database (both with tables and with order queue system)
 
-    public static OrderFragment newInstance(int tableNum, int orderNum){
+    public static OrderFragment newInstance(int tableNum, int orderIndex, boolean orderIsEmpty){
         Bundle args = new Bundle();
         args.putInt(ARG_TABLE_NUMBER, tableNum);
-        args.putInt(ARG_ORDER_NUMBER, orderNum);
+
+        // flag if the order is empty with -1
+        if(orderIsEmpty) args.putInt(ARG_ORDER_INDEX, -1);
+        else args.putInt(ARG_ORDER_INDEX, orderIndex);
 
         OrderFragment fragment = new OrderFragment();
         fragment.setArguments(args);
+
         return fragment;
     }
 
@@ -44,10 +46,20 @@ public class OrderFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
         int tableNum = getArguments().getInt(ARG_TABLE_NUMBER);
-        int orderNum = getArguments().getInt(ARG_ORDER_NUMBER);
+        int orderIndex = getArguments().getInt(ARG_ORDER_INDEX);
 
-        // Get the order for this screen
-        mOrder = TableController.getInstance(getActivity()).getTable(tableNum).getOrder(orderNum);
+        mOrderController = OrderController.getInstance(getActivity());
+        mTable = TableController.getInstance(getActivity()).getTable(tableNum);
+
+        // If the table already has orders, get the details from the database
+        if(orderIndex > -1){
+            mOrder = mTable.getOrder(orderIndex);
+        }
+        // else make a new order
+        else{
+            mOrder = mOrderController.addNewOrder(tableNum);
+            mTable.addOrder(mOrder);
+        }
 
         // setup view
         View view = inflater.inflate(R.layout.fragment_order, container, false);
@@ -71,8 +83,7 @@ public class OrderFragment extends Fragment {
             mRecyclerView.setAdapter(mMenuItemAdapter);
         }
 
-        // Not very pretty but if a menu item is edited or added, just update the dataset
-        // orders will be relatively small
+        // Update data set to reflect changes
         mOrderTotal.setText(String.format("%.2f", mOrder.getTotal()));
         mMenuItemAdapter.notifyDataSetChanged();
     }
@@ -112,7 +123,10 @@ public class OrderFragment extends Fragment {
             if(newItem == null) return;
 
             // Case 1: user is entering a new item
-            if(position >= mOrder.getItems().size()) mOrder.addItem(newItem);
+            if(position >= mOrder.getItems().size()){
+                mOrder.addItem(newItem);
+                mOrderController.addItemToOrder(mOrder.getNumber(), newItem);
+            }
 
             // Case 2: user is editing a preexisting item
             else mOrder.setItem(position, newItem);
@@ -170,6 +184,7 @@ public class OrderFragment extends Fragment {
             mDeleteItemButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
+                    mOrderController.removeItemFromOrder(mOrder.getNumber(), mOrder.getItem(mPosition));
                     mOrder.removeItem(mPosition);
                     updateOrder();
                 }

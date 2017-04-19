@@ -6,11 +6,22 @@ import java.util.List;
 public class Order {
 
     private List<SideDishMenuItem> mItems;
-    private double mTotal;
+    private int mNumber;
+    private int mStatus;
 
-    public Order(){
+    public Order(int number){
+        this(number, 0);
+    }
+    public Order(int number, int status){
         mItems = new ArrayList<SideDishMenuItem>();
-        mTotal = 0.0;
+        mNumber = number;
+        mStatus = status;
+    }
+
+    /* Add all menu items from a list */
+    public void addItems(ArrayList<SideDishMenuItem> itemList){
+        if(itemList == null) return;
+        for(int i=0; i < itemList.size(); i++) mItems.add(itemList.get(i));
     }
 
     public List<SideDishMenuItem> getItems(){
@@ -22,25 +33,32 @@ public class Order {
         return mItems.get(position);
     }
 
+    /* it's O(n) lol */
     public double getTotal(){
-        return mTotal;
+        double total = 0.0;
+        for(int i=0; i<mItems.size(); i++) total += mItems.get(i).getPrice();
+        return total;
     }
 
     public void addItem(SideDishMenuItem item){
         mItems.add(item);
-        mTotal += item.getPrice();
     }
 
     public void setItem(int position, SideDishMenuItem newItem){
         if(position < 0 || position >= mItems.size()) return;
-        mTotal -= mItems.get(position).getPrice();
-        mTotal += newItem.getPrice();
         mItems.set(position, newItem);
     }
 
     public void removeItem(int position){
         if(position < 0 || position >= mItems.size()) return;
-        mTotal -= mItems.get(position).getPrice();
         mItems.remove(position);
+    }
+
+    public int getNumber(){
+        return mNumber;
+    }
+
+    public int getStatus(){
+        return mStatus;
     }
 }
