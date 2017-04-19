@@ -32,8 +32,8 @@ public class UserController {
         mUsers = mDBHelper.getUsers();
     }
 
-    public void editUser(String oldID, String newID, int type){
-        mDBHelper.editUser(oldID, newID, type);
+    public void editUser(String oldID, String newID, int type, String password){
+        mDBHelper.editUser(oldID, newID, type, password);
         mUsers = mDBHelper.getUsers();
     }
 

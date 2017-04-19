@@ -29,7 +29,7 @@ public class EditUsersFragment extends Fragment {
     private EditUserAdapter mEditUserAdapter;
     private Button mNewUserButton;
 
-    private int mNewUserType = 0; // 1 -> Manager, 2 -> Waitstaff, 3 -> Kitchen
+    private int mNewUserType = 1; // 1 -> Manager, 2 -> Waitstaff, 3 -> Kitchen
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -152,7 +152,6 @@ public class EditUsersFragment extends Fragment {
     private class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mUserID;
-        private TextView mPassword;
         private TextView mUserType;
 
         private Employee mUser;
@@ -163,7 +162,6 @@ public class EditUsersFragment extends Fragment {
             super(inflater.inflate(R.layout.list_user, parent, false));
 
             mUserID   = (TextView) itemView.findViewById(R.id.user_id_text_view);
-            mPassword = (TextView) itemView.findViewById(R.id.password_text_view);
             mUserType = (TextView) itemView.findViewById(R.id.user_type_text_view);
 
             mDeleteUserFlag = false;
@@ -175,7 +173,6 @@ public class EditUsersFragment extends Fragment {
             mUser = user;
 
             mUserID.setText(mUser.getID());
-            mPassword.setText(mUser.getPassword());
             mUserType.setText(mUser.getType());
         }
 
@@ -221,11 +218,12 @@ public class EditUsersFragment extends Fragment {
             });
 
             layout.addView(userIDInput);
+            layout.addView(passwordInput);
             layout.addView(userTypeInput);
             layout.addView(deleteUser);
 
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Set Title and Price of New Menu Item");
+            builder.setTitle("Edit user ID, Password, and Employee Type");
             builder.setView(layout);
             builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                 @Override
@@ -236,7 +234,8 @@ public class EditUsersFragment extends Fragment {
                     }
                     else {
                         String id = String.valueOf(userIDInput.getText());
-                        mUserController.editUser(mUser.getID(), id, mNewUserType);
+                        String password = String.valueOf(passwordInput.getText());
+                        mUserController.editUser(mUser.getID(), id, mNewUserType, password);
                     }
 
                     updateEditUsersScreen();

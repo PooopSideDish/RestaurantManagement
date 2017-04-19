@@ -109,9 +109,9 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
                 new String[]{id, String.valueOf(type), password});
     }
 
-    public void editUser(String oldId, String newId, int type) {
-        mDatabase.execSQL("UPDATE users SET id=?, type=? WHERE id=?;",
-                new String[]{newId, String.valueOf(type), oldId});
+    public void editUser(String oldId, String newId, int type, String password) {
+        mDatabase.execSQL("UPDATE users SET id=?, type=?, password=? WHERE id=?;",
+                new String[]{newId, String.valueOf(type), password, oldId});
     }
 
     public void deleteUser(String id){
@@ -355,7 +355,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         mDatabase.execSQL("CREATE TABLE users (" +
                 "id TEXT COLLATE NOCASE, " +
                 "type INTEGER, "           +
-                "password TEXT, "          +
+                "password TEXT "          +
                 ");");
 
         // Table of all previous orders taken (for statistics)

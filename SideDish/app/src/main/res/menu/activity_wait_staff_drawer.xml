@@ -6,8 +6,8 @@
             android:id="@+id/nav_view_tables"
             android:title="View Tables" />
         <item
-            android:id="@+id/nav_view_orders"
-            android:title="View Orders" />
+            android:id="@+id/nav_view_kitchen"
+            android:title="View Kitchen" />
         <item
             android:id="@+id/nav_manage_users"
             android:title="Manage Users" />
