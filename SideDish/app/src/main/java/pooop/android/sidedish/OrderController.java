@@ -6,12 +6,10 @@ import java.util.List;
 
 public class OrderController {
 
-    // TODO: everytime the kitchen screen is interacted with, just fetch the orderqueue again
-
     private static OrderController sOrderController;
 
     private Context mContext;
-    private List<Order> mQueue;
+    private List<SideDishMenuItem> mQueue;
     private SideDishDataBaseHelper mDBHelper;
 
     public static OrderController getInstance(Context context) {
@@ -29,19 +27,25 @@ public class OrderController {
         return mDBHelper.addNewOrder(tableNum);
     }
 
-    public void addOrder(Order o){
-
-    }
-
     /* Add the new item to the order details, under the order number */
     public void addItemToOrder(int orderNum, SideDishMenuItem newItem){
         mDBHelper.addItemToOrder(orderNum, newItem);
     }
 
+    /* Sync the order in memory with the order in the database */
+    public void updateOrder(Order o){
+        mDBHelper.updateOrder(o);
+    }
+
     /* Submit an order to the queue and record it in the history */
-    public void submitOrder(Order o) {
-        mDBHelper.submitOrder(o);
+    public void submitOrderToQueue(Order o) {
+        mDBHelper.submitOrderToQueue(o);
         mDBHelper.recordOrder(o);
+    }
+
+    public void removeOrderFromQueue(Order o){
+        mDBHelper.removeOrderFromQueue(o);
+        mQueue = mDBHelper.getOrderQueue();
     }
 
     /* Remove an item from the Database */
@@ -49,7 +53,8 @@ public class OrderController {
         mDBHelper.removeItemFromOrder(orderNum, item);
     }
 
-    public List<Order> getQueue(){
+    public List<SideDishMenuItem> getQueue(){
+        mQueue = mDBHelper.getOrderQueue();
         return mQueue;
     }
 }

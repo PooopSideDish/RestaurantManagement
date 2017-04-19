@@ -26,8 +26,6 @@ public class OrderFragment extends Fragment {
     private MenuItemAdapter mMenuItemAdapter;
     private TextView mOrderTotal;
 
-    // TODO: Remove order somehow (just remove all items?)
-
     public static OrderFragment newInstance(int tableNum, int orderIndex, boolean orderIsEmpty){
         Bundle args = new Bundle();
         args.putInt(ARG_TABLE_NUMBER, tableNum);
@@ -129,7 +127,10 @@ public class OrderFragment extends Fragment {
             }
 
             // Case 2: user is editing a preexisting item
-            else mOrder.setItem(position, newItem);
+            else{
+                mOrder.setItem(position, newItem);
+                mOrderController.updateOrder(mOrder);
+            }
 
             updateOrder();
         }

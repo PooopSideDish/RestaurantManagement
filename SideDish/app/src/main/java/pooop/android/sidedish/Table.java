@@ -55,8 +55,14 @@ public class Table {
         return mOrders;
     }
 
+    /* Maybe should be by order id? */
     public Order getOrder(int orderIndex){
         return mOrders.get(orderIndex);
+    }
+
+    public Order getOrderByIndex(int index){
+        if(index < 0 || index >= mOrders.size()) return null;
+        return mOrders.get(index);
     }
 
     public void addOrder(Order o){

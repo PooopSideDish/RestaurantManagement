@@ -11,6 +11,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 public class OrderPagerActivity extends AppCompatActivity {
 
@@ -70,7 +71,13 @@ public class OrderPagerActivity extends AppCompatActivity {
         mSubmitOrderButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                // TODO: Submit specific order to the Queue
+                int curIndex = mPagerAdapter.getCurrentItem();
+                mOrderController.submitOrderToQueue(mTable.getOrderByIndex(curIndex));
+
+                Toast.makeText(getApplicationContext(),
+                        "Order has been submitted to kitchen!",
+                        Toast.LENGTH_SHORT)
+                        .show();
             }
         });
 

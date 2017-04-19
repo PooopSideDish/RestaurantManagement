@@ -202,7 +202,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
             String comment = detailsCursor.getString(1);
             int status = detailsCursor.getInt(2);
 
-            itemList.add(new SideDishMenuItem(title, price, comment, status, detailsCursor.getInt(0)));
+            itemList.add(new SideDishMenuItem(title, price, comment, status, detailsCursor.getInt(0), detailsCursor.getInt(3)));
 
             itemCursor.close();
             detailsCursor.moveToNext();
@@ -226,15 +226,72 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
                 new String[]{String.valueOf(tableNum)});
     }
 
-    public ArrayList<Order> getOrderQueue(){
-        ArrayList<Order> queue = new ArrayList<>();
-        // TODO: get queue working
+    public ArrayList<SideDishMenuItem> getOrderQueue(){
+        ArrayList<SideDishMenuItem> queue = new ArrayList<>();
+
+        // Get all the orders from the queue table
+        // order number is index 6. 0-5 are date fields
+        Log.d("LOG:", "Getting all orders from order_queue");
+        Cursor orderCursor = mDatabase.rawQuery("SELECT * FROM order_queue ORDER BY " +
+                "year ASC, month ASC, day ASC, hour ASC, minute ASC, second ASC" +
+                ";", null);
+
+        Log.d("LOG:", "There are *" + orderCursor.getCount() + "* orders in order_queue");
+
+        orderCursor.moveToFirst();
+        while(!orderCursor.isAfterLast()){
+
+            // Use the order id and get all the menu items for that order.
+            // For every menu item associated with the id, add it to the queue
+            Log.d("LOG:", "Getting all items associated with order #" + orderCursor.getInt(6));
+            ArrayList<SideDishMenuItem> orderItems = getMenuItemsByOrderID(orderCursor.getInt(6));
+            Log.d("LOG:", "There are *" + orderItems.size() + "* items associated with order #" + orderCursor.getInt(6));
+            for(int i=0; i<orderItems.size(); i++){
+                queue.add(orderItems.get(i));
+            }
+
+            orderCursor.moveToNext();
+        }
+        orderCursor.close();
+
+        Log.d("LOG:", "There are *" + queue.size() + "* items in the queue");
         return queue;
     }
 
     /* Add an order to the queue */
-    public void submitOrder(Order o){
-        // TODO: submit order to db queue
+    public void submitOrderToQueue(Order o){
+        Log.d("LOG:", "Adding Order #" + o.getNumber() + " to order_queue");
+        String orderNum = String.valueOf(o.getNumber());
+
+        // If the order is already in the queue, it references the order_details, which
+        // are updated everytime an item is altered or created in the order screen.
+        // There should be no need to resubmit an altered order.
+        Cursor cursor = mDatabase.rawQuery("SELECT * FROM order_queue WHERE order_number==?",
+                new String[]{orderNum});
+        if(cursor.getCount() > 0){
+            Log.d("LOG:", "Order #" + o.getNumber() + " Already exists in order_queue");
+            return;
+        }
+
+        // Get the date
+        Calendar c = Calendar.getInstance();
+        String year   = String.valueOf(c.get(Calendar.YEAR));
+        String month  = String.valueOf(c.get(Calendar.MONTH));
+        String day    = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
+        String hour   = String.valueOf(c.get(Calendar.HOUR_OF_DAY));
+        String minute = String.valueOf(c.get(Calendar.MINUTE));
+        String second = String.valueOf(c.get(Calendar.SECOND));
+
+        mDatabase.execSQL("INSERT INTO order_queue VALUES (?, ?, ?, ?, ?, ?, ?);",
+                new String[]{year, month, day, hour, minute, second, orderNum});
+        Log.d("LOG:", "Order #" + o.getNumber() + " inserted into order_queue with date " +
+                year + " " + month + " " + day + " " + hour + " " + minute + " " + second + " " );
+    }
+
+    /* Removing an order from order_queue should NOT remove the order from orders or order_details */
+    public void removeOrderFromQueue(Order o){
+        mDatabase.execSQL("delete from order_queue where order_number==?",
+                new String[]{String.valueOf(o.getNumber())});
     }
 
     /* Add a new, empty order to the database */
@@ -256,6 +313,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
     public void removeOrderFromTable(int orderNum, int tableNum){
         // Cascading delete should take care of every dependency
+        // TODO: removing an order is not removing order from order_queue
         mDatabase.execSQL("DELETE FROM orders WHERE id==? AND table_id==?",
                 new String[]{String.valueOf(orderNum), String.valueOf(tableNum)});
     }
@@ -275,6 +333,19 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         Log.d("LOG:", "Inserting menu item #" + itemID + " into order #" + orderNum);
         mDatabase.execSQL("INSERT INTO order_details VALUES (?, ?, ?, ?);",
                 new String[]{String.valueOf(itemID), itemComment, itemStatus, String.valueOf(orderNum)});
+    }
+
+    public void updateOrder(Order o){
+
+        // Taking the nuclear option
+        // Remove all old order details
+        mDatabase.execSQL("DELETE FROM order_details WHERE order_number==?",
+                new String[]{String.valueOf(o.getNumber())});
+
+        // For every item in the order, add it back in
+        for(int i=0; i<o.getItems().size(); i++){
+            addItemToOrder(o.getNumber(), o.getItem(i));
+        }
     }
 
     /* Remove exactly 1 item from the order */

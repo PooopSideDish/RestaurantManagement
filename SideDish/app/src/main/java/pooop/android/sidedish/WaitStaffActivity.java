@@ -85,8 +85,6 @@ public class WaitStaffActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        // TODO: order view is kitchen view
-
         if (id == R.id.nav_view_tables) {
             // Change to TableTableFragment
             TableTableFragment tableTableFragment = new TableTableFragment();
