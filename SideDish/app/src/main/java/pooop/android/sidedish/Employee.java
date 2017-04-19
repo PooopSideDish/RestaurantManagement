@@ -3,15 +3,21 @@ package pooop.android.sidedish;
 public class Employee {
 
     private String mID;
+    private String mPassword;
     private int mType;
 
-    public Employee(String id, int type) {
+    public Employee(String id, int type, String password) {
         mID   = id;
+        mPassword = password;
         mType = type;
     }
 
     public String getID(){
         return mID;
+    }
+
+    public String getPassword() {
+        return mPassword;
     }
 
     public String getType(){
@@ -21,7 +27,7 @@ public class Employee {
                 returnString = "Manager";
                 break;
             case 2:
-                returnString = "Waitstaff";
+                returnString = "WaitStaff";
                 break;
             case 3:
                 returnString = "Kitchen";

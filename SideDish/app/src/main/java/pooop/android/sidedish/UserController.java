@@ -27,8 +27,8 @@ public class UserController {
         return mUsers;
     }
 
-    public void addUser(String id, int type){
-        mDBHelper.addUser(id, type);
+    public void addUser(String id, int type, String password){
+        mDBHelper.addUser(id, type, password);
         mUsers = mDBHelper.getUsers();
     }
 

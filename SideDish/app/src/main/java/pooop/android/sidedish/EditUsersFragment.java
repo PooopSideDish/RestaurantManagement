@@ -51,8 +51,10 @@ public class EditUsersFragment extends Fragment {
 
                 final EditText userIDInput = new EditText(getActivity());
                 userIDInput.setHint("Set User's ID here.");
+                final EditText passwordInput = new EditText(getActivity());
+                passwordInput.setHint("Set password here.");
                 final Spinner userTypeInput = new Spinner(getActivity());
-                final String[] types = {"Manager", "Waitstaff", "Kitchen"};
+                final String[] types = {"Manager", "WaitStaff", "Kitchen"};
                 ArrayAdapter<String> typesAdapter = new ArrayAdapter<>(getActivity(),
                         android.R.layout.simple_spinner_dropdown_item, types);
                 userTypeInput.setAdapter(typesAdapter);
@@ -70,16 +72,18 @@ public class EditUsersFragment extends Fragment {
                 });
 
                 layout.addView(userIDInput);
+                layout.addView(passwordInput);
                 layout.addView(userTypeInput);
 
                 AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle("Set ID and Employee Type of New User");
+                builder.setTitle("Set new user ID, Password, and Employee Type");
                 builder.setView(layout);
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String id = String.valueOf(userIDInput.getText());
-                        mUserController.addUser(id, mNewUserType);
+                        String password = String.valueOf(passwordInput.getText());
+                        mUserController.addUser(id, mNewUserType, password);
 
                         updateEditUsersScreen();
                     }
@@ -148,6 +152,7 @@ public class EditUsersFragment extends Fragment {
     private class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private TextView mUserID;
+        private TextView mPassword;
         private TextView mUserType;
 
         private Employee mUser;
@@ -158,6 +163,7 @@ public class EditUsersFragment extends Fragment {
             super(inflater.inflate(R.layout.list_user, parent, false));
 
             mUserID   = (TextView) itemView.findViewById(R.id.user_id_text_view);
+            mPassword = (TextView) itemView.findViewById(R.id.password_text_view);
             mUserType = (TextView) itemView.findViewById(R.id.user_type_text_view);
 
             mDeleteUserFlag = false;
@@ -169,6 +175,7 @@ public class EditUsersFragment extends Fragment {
             mUser = user;
 
             mUserID.setText(mUser.getID());
+            mPassword.setText(mUser.getPassword());
             mUserType.setText(mUser.getType());
         }
 
@@ -180,6 +187,9 @@ public class EditUsersFragment extends Fragment {
 
             final EditText userIDInput = new EditText(getActivity());
             userIDInput.setHint("Set User's ID here.");
+
+            final EditText passwordInput = new EditText(getActivity());
+            passwordInput.setHint("Set password here.");
 
             final Spinner userTypeInput = new Spinner(getActivity());
             final String[] types = {"Manager", "Waitstaff", "Kitchen"};
