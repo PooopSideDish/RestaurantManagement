@@ -80,7 +80,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         cursor.moveToFirst();
         try {
             while (!cursor.isAfterLast()) {
-                retList.add(new Employee(cursor.getString(0), cursor.getInt(1)));
+                retList.add(new Employee(cursor.getString(0), cursor.getInt(1), cursor.getString(0)));
                 cursor.moveToNext();
             }
         }
@@ -91,9 +91,9 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         return retList;
     }
 
-    public void addUser(String id, int type){
-        mDatabase.execSQL("INSERT INTO users VALUES (?, ?);",
-                new String[]{id, String.valueOf(type)});
+    public void addUser(String id, int type, String password){
+        mDatabase.execSQL("INSERT INTO users VALUES (?, ?, ?);",
+                new String[]{id, String.valueOf(type), password});
     }
 
     public void editUser(String oldId, String newId, int type) {
@@ -164,7 +164,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         // Users table
         // Using implicit primary key id. The id column is the user's id used to login
         // type integer distinguishes privaleges: 1 -> manager, 2 -> waitstaff, 3 -> kitchen
-        mDatabase.execSQL("CREATE TABLE users (id TEXT COLLATE NOCASE, type INTEGER)");
+        mDatabase.execSQL("CREATE TABLE users (id TEXT COLLATE NOCASE, type INTEGER, password TEXT)");
     }
 
     @Override
