@@ -20,7 +20,7 @@
 - [x] Make admin default login for case where app has no users
 - [x] Add password checking for login
 - [x] Restrict the kitchen staff to only kitchen view
-- [ ] Restrict the waitstaff to only tables, orders, kitchen view
+- [x] Restrict the waitstaff to only tables/orders
 
 
 ### Requirements Traceability Matrix
@@ -36,10 +36,10 @@
 - [ ] Menu items shall be toggleable to determine visibility 
 - [ ] The system shall have data inputs of new orders, update status of those orders, add new reservations and have data outputs of receipts and sales manifests. 
 - [ ] The system shall have dates/times in the format of MM/DD/YYYY, HH:MM AM/PM. It will have employee IDs, and table numbers in integer format. All data will have to be accurate in order to properly work. 
-- [ ] Waiters shall be able to place orders into a queue for future interaction 
+- [x] Waiters shall be able to place orders into a queue for future interaction 
 - [ ] Waiters/Managers shall be able to modify orders after they are in queue 
-- [ ] The program shall be able to uniquely distinguish between each order placed 
-- [ ] The system shall be able to display the current orders in the queue. 
+- [x] The program shall be able to uniquely distinguish between each order placed 
+- [x] The system shall be able to display the current orders in the queue. 
 - [ ] The Kitchen staff shall be able to set items in the queue to the ready position
 - [ ] Waiters/Managers shall be able to remove ‘ready’ items from the queue 
 - [ ] The database shall retain information on previously sold orders. 
