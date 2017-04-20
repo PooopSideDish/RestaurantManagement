@@ -26,9 +26,9 @@
 ### Requirements Traceability Matrix
 
 
-- [ ] There shall be three different types of users: wait staff, kitchen manager, and restaurant manager 
+- [x] There shall be three different types of users: wait staff, kitchen manager, and restaurant manager 
 - [ ] All users shall have a unique user ID and password to prevent other employees from accessing sections of the app that they don’t have permission for. 
-- [ ] Access to each user’s tasks must be controlled by requiring each user to log in 
+- [x] Access to each user’s tasks must be controlled by requiring each user to log in 
 - [ ] The system shall be able to asynchronously create as many table reservations (and orders and bills/receipts) as needed. The system shall create a sales manifest once per day, synchronously based on the computer clock. 
 - [ ] Restaurant managers shall be able to modify/add menu items 
 - [ ] The price of the menu items shall be a floating point number with two decimal precision ($XX.XX) 
