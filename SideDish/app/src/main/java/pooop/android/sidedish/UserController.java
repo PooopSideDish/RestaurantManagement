@@ -42,9 +42,9 @@ public class UserController {
         mUsers = mDBHelper.getUsers();
     }
 
-    public boolean isValidUser(String id){
+    public boolean isValidUser(String id, String pwd){
         for(int i = 0; i < mUsers.size(); i++){
-            if(mUsers.get(i).getID().equals(id)) return true;
+            if((mUsers.get(i).getID().equals(id)) && mUsers.get(i).getPassword().equals(pwd)) return true;
         }
         return false;
     }

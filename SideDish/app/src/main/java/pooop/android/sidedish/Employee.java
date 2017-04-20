@@ -37,15 +37,11 @@ public class Employee {
         return returnString;
     }
 
-    public int getTypeInt(){
-        return mType;
-    }
+    public int getTypeInt(){ return mType; }
 
-    public void setID(String id){
-        mID = id;
-    }
+    public void setID(String id){ mID = id; }
 
-    public void setType(int type){
-        mType = type;
-    }
+    public void setType(int type){ mType = type; }
+
+    public void setPassword(String password) { mPassword = password; }
 }
