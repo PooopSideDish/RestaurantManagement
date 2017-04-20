@@ -5,15 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="10dp"
-    android:gravity="center"
+    android:gravity="left"
     >
 
     <TextView
         android:id="@+id/edit_menu_item_title_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="130dp"
         android:layout_height="wrap_content"
         android:layout_marginLeft="30dp"
-        android:gravity="center"
+        android:gravity="left"
         android:textSize="30sp"
         android:textColor="#FFFFFF"
         android:text="test"
@@ -23,10 +23,10 @@
         />
 
     <TextView
-        android:layout_width="wrap_content"
+        android:layout_width="1dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="25dp"
-        android:gravity="end"
+        android:layout_marginLeft="0dp"
+        android:gravity="left"
         android:textColor="#FFFFFF"
         android:text="$"
         android:textSize="30sp"
@@ -35,13 +35,23 @@
 
     <TextView
         android:id="@+id/edit_menu_item_price_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="10dp"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
         android:text="test"
-        android:gravity="start"
+        android:gravity="left"
         android:layout_weight=".5"
+        />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/edit_menu_item_visibility"
+        android:gravity="left"
+        android:onClick="updateVisibility"
+        android:visibility="visible"
+        android:buttonTint="@color/white"
         />
 
 </LinearLayout>
