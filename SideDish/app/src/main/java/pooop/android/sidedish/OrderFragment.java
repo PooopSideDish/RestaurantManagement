@@ -24,7 +24,8 @@ public class OrderFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private MenuItemAdapter mMenuItemAdapter;
-    private TextView mOrderTotal;
+    private TextView mOrderNumberTextView;
+    private TextView mOrderTotalTextView;
 
     public static OrderFragment newInstance(int tableNum, int orderIndex, boolean orderIsEmpty){
         Bundle args = new Bundle();
@@ -62,11 +63,14 @@ public class OrderFragment extends Fragment {
         // setup view
         View view = inflater.inflate(R.layout.fragment_order, container, false);
 
+        mOrderNumberTextView = (TextView) view.findViewById(R.id.order_number_text_view);
+        mOrderNumberTextView.setText(String.valueOf(mOrder.getNumber()));
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.menu_items_list_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        mOrderTotal = (TextView) view.findViewById(R.id.order_total_text_view);
-        mOrderTotal.setText(String.valueOf(mOrder.getTotal()));
+        mOrderTotalTextView = (TextView) view.findViewById(R.id.order_total_text_view);
+        mOrderTotalTextView.setText(String.valueOf(mOrder.getTotal()));
 
         updateOrder();
 
@@ -82,7 +86,7 @@ public class OrderFragment extends Fragment {
         }
 
         // Update data set to reflect changes
-        mOrderTotal.setText(String.format("%.2f", mOrder.getTotal()));
+        mOrderTotalTextView.setText(String.format("%.2f", mOrder.getTotal()));
         mMenuItemAdapter.notifyDataSetChanged();
     }
 
