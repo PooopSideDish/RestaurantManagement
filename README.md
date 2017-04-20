@@ -40,8 +40,8 @@
 - [ ] Waiters/Managers shall be able to modify orders after they are in queue 
 - [x] The program shall be able to uniquely distinguish between each order placed 
 - [x] The system shall be able to display the current orders in the queue. 
-- [ ] The Kitchen staff shall be able to set items in the queue to the ready position
-- [ ] Waiters/Managers shall be able to remove ‘ready’ items from the queue 
+- [x] The Kitchen staff shall be able to set items in the queue to the ready position
+- [x] Waiters/Managers shall be able to remove ‘ready’ items from the queue 
 - [ ] The database shall retain information on previously sold orders. 
 - [ ] The system shall log the number of each menu item sold in each of the past 7 days, on average for each day of the week, and total sold all time. 
 - [ ] The formula to determine price trends will total number of sales for that item across a certain time period (weekly, monthly) 
