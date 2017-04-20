@@ -2,7 +2,7 @@
 
 ### TODO:
 - [x] Update Table Status on order creation and deletion
-- [ ] Add Order number to order screen
+- [x] Add Order number to order screen
 - [ ] Add item status to order screen
 - [ ] Add comment to item from order screen
 - [ ] Redesign kitchen queue rows to display comments on an item
