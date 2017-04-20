@@ -16,7 +16,7 @@
 - [ ] Statistics date pickers
 - [x] Add confirm deletion dialogs for orders, menu items, and users
 - [ ] Ensure that no two menu items have the same name
-- [x] Ensure that no two users have the same id
+- [ ] Ensure that no two users have the same id
 - [x] Make admin default login for case where app has no users
 - [x] Add password checking for login
 - [x] Restrict the kitchen staff to only kitchen view
