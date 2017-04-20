@@ -16,8 +16,10 @@ public class LoginActivity extends AppCompatActivity {
     private static final String MANAGER_LOGIN_TEST = "pooop";
 
     private EditText mLoginEditText;
+    private EditText mPasswordEditText;
     private Button mLoginButton;
     private String mLoginStr = "";
+    private String mLoginPwd = "";
 
     private UserController mUserController;
 
@@ -36,6 +38,7 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.activity_login);
 
         mLoginEditText = (EditText) findViewById(R.id.login_edit_text);
+        mPasswordEditText = (EditText) findViewById(R.id.password_edit_text);
         mLoginButton = (Button) findViewById(R.id.login_button);
 
         mLoginEditText.addTextChangedListener(new TextWatcher() {
@@ -55,10 +58,27 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
+        mPasswordEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                // Unused
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mLoginPwd = s.toString();
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                // Unused
+            }
+        });
+
         mLoginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(mUserController.isValidUser(mLoginStr) || mLoginStr.equals(MANAGER_LOGIN_TEST)){
+                if(mUserController.isValidUser(mLoginStr, mLoginPwd) || mLoginStr.equals(MANAGER_LOGIN_TEST)){
                     Intent intent = WaitStaffActivity.newIntent(getApplicationContext());
                     startActivity(intent);
 
