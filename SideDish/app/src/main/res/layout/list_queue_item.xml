@@ -11,6 +11,7 @@
         android:layout_width="100dp"
         android:layout_height="wrap_content"
         android:textSize="24sp"
+        android:textColor="#FFFFFF"
         android:layout_margin="15dp"
         tools:text="###"
         />
@@ -20,6 +21,7 @@
         android:layout_width="400dp"
         android:layout_height="wrap_content"
         android:textSize="24sp"
+        android:textColor="#FFFFFF"
         android:layout_margin="15dp"
         tools:text="Menu Item"
         />

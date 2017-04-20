@@ -85,9 +85,24 @@ public class EditUsersFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String id = String.valueOf(userIDInput.getText());
                         String password = String.valueOf(passwordInput.getText());
-                        mUserController.addUser(id, mNewUserType, password);
+                        if(mUserController.doesUserExist(id) == true){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Error! That user already exists")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //don't need code here, nothing happens -- just an alert
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
 
-                        updateEditUsersScreen();
+                        }
+                        else{
+                            mUserController.addUser(id, mNewUserType, password);
+                            updateEditUsersScreen();
+                        }
+
                     }
                 });
 

@@ -60,4 +60,12 @@ public class UserController {
         }
         return null;
     }
+    public boolean doesUserExist(String id){
+        for(int i = 0; i < mUsers.size(); i++){
+            if((mUsers.get(i).getID().equals(id))){
+                return true;
+            }
+        }
+    return false;
+    }
 }
