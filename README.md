@@ -27,12 +27,12 @@
 
 
 - [x] There shall be three different types of users: wait staff, kitchen manager, and restaurant manager 
-- [ ] All users shall have a unique user ID and password to prevent other employees from accessing sections of the app that they don’t have permission for. 
+- [x] All users shall have a unique user ID and password to prevent other employees from accessing sections of the app that they don’t have permission for. 
 - [x] Access to each user’s tasks must be controlled by requiring each user to log in 
 - [ ] The system shall be able to asynchronously create as many table reservations (and orders and bills/receipts) as needed. The system shall create a sales manifest once per day, synchronously based on the computer clock. 
-- [ ] Restaurant managers shall be able to modify/add menu items 
-- [ ] The price of the menu items shall be a floating point number with two decimal precision ($XX.XX) 
-- [ ] The database shall retain price information for every menu item. If a menu item is deleted, that information will be removed. 
+- [x] Restaurant managers shall be able to modify/add menu items 
+- [x] The price of the menu items shall be a floating point number with two decimal precision ($XX.XX) 
+- [x] The database shall retain price information for every menu item. If a menu item is deleted, that information will be removed. 
 - [ ] Menu items shall be toggleable to determine visibility 
 - [ ] The system shall have data inputs of new orders, update status of those orders, add new reservations and have data outputs of receipts and sales manifests. 
 - [ ] The system shall have dates/times in the format of MM/DD/YYYY, HH:MM AM/PM. It will have employee IDs, and table numbers in integer format. All data will have to be accurate in order to properly work. 
