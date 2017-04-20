@@ -12,7 +12,9 @@
         android:layout_width="425dp"
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        android:layout_marginLeft="30dp"
+        />
 
         <TextView
             android:layout_width="20dp"
@@ -40,7 +42,7 @@
         android:padding="15dp"
         android:layout_gravity="center_horizontal"
         android:text="Remove  Item"
-        android:layout_marginLeft="15dp"
+        android:layout_marginLeft="30dp"
         />
 
 </LinearLayout>
