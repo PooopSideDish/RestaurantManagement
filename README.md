@@ -1,31 +1,30 @@
 # SideDish POOOP project
 
 ### TODO:
-- [x] Menu System
-    - [x] add / edit / remove Menu Items in database
-    - [x] Add in auto-complete text system
+- [ ] Update Table Status on order creation and deletion
+- [ ] Add Order number to order screen
+- [ ] Add item status to order screen
+- [ ] Add comment to item from order screen
+- [ ] Redesign kitchen queue rows to display comments on an item
+- [ ] Design kitchen queue rows to be spaced nicely
+- [ ] View comment on item from queue screen
+- [ ] Change item's status from queue screen
+- [ ] Change table table columns to: number, section, status
+- [ ] Space out table table rows to match columns
+- [ ] Add all items in a submitted order to the history table for statistics
+- [ ] Create Statistics Screen and wire it to the nav drawer
+- [ ] Statistics date pickers
+- [ ] Add confirm deletion dialogs for orders, menu items, and users
+- [ ] Ensure that no two menu items have the same name
+- [ ] Ensure that no two users have the same id
+- [ ] Make admin default login for case where app has no users
+- [ ] Add password checking for login
+- [ ] Restrict the kitchen staff to only kitchen view
+- [ ] Restrict the waitstaff to only tables, orders, kitchen view
 
-- [x] Table
-   - [x] add / edit / remove Table in database
-   - [x] Add new order to table
-   - [x] Edit or remove an item on the order
-   - [x] Add new item to an existing order
-   - [x] Submit order to database
 
-- [x] Users
-   - [x] add / edit / remove Users in database
-   - [x] Integrate log in with database
+### Requirements Traceability Matrix
 
-- [ ] Kitchen view
-   - [x] Pull current orders from database and display in order
-   - [ ] Set order status/flag
-
-- [ ] Statistics menu
-   - [ ] Display # of orders over period of time, rank by number (ie: show top 5)
-
-- [ ] Make everything purdy
-
-####################### Requirements Traceability Matrix #######################
 - [ ] Waiters shall be able to place orders into a queue for future interaction
 - [ ] The program shall be able to uniquely distinguish between each order placed
 - [ ] Waiters/Managers shall be able to modify orders after they are in queue

@@ -313,7 +313,6 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
     public void removeOrderFromTable(int orderNum, int tableNum){
         // Cascading delete should take care of every dependency
-        // TODO: removing an order is not removing order from order_queue
         mDatabase.execSQL("DELETE FROM orders WHERE id==? AND table_id==?",
                 new String[]{String.valueOf(orderNum), String.valueOf(tableNum)});
     }
@@ -441,5 +440,10 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         // unused
+    }
+
+    @Override
+    public void onOpen(SQLiteDatabase db){
+        db.execSQL("PRAGMA foreign_keys=ON");
     }
 }

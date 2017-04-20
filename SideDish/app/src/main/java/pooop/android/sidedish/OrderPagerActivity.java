@@ -32,8 +32,6 @@ public class OrderPagerActivity extends AppCompatActivity {
         return intent;
     }
 
-    // TODO: TableTableFragment finished. Walk through order process from here. Starting at table click.
-
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
@@ -86,7 +84,6 @@ public class OrderPagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // TODO: add warning dialog here to confirm deletion
-
 
                 // Get the order's index from the PagerAdapter
                 int curIndex = mViewPager.getCurrentItem();
