@@ -76,4 +76,9 @@ public class TableController {
             }
         }
     }
+
+    public void setTableStatus(Table table, int status){
+        mDBHelper.setTableStatus(table, status);
+        mTableList = mDBHelper.getTables();
+    }
 }

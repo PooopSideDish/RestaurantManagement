@@ -100,6 +100,8 @@ public class OrderPagerActivity extends AppCompatActivity {
                     mViewPager.setCurrentItem((curIndex + 1) % mTable.getNumOrders());
                 } catch(ArithmeticException e){
                     mTableController.removeAllOrdersFromTable(mTable);
+                    mTableController.setTableStatus(mTable, 0);
+                    mTable.setStatus(0);
                     finish();
                 }
             }

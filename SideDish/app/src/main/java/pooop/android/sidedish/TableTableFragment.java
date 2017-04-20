@@ -227,16 +227,24 @@ public class TableTableFragment extends Fragment{
         public void bind(Table table){
             mTable = table;
 
-            mTableNumberText.setText(String.valueOf(table.getNumber()));
-            mTableSectionText.setText(String.valueOf(table.getSection()));
-            mTableStatusText.setText(table.getStatus());
+            mTableNumberText.setText(String.valueOf(mTable.getNumber()));
+            mTableSectionText.setText(String.valueOf(mTable.getSection()));
+            mTableStatusText.setText(mTable.getStatus());
         }
 
         @Override
         public void onClick(View v) {
             Intent intent = OrderPagerActivity.newIntent(getActivity(), mTable);
             Log.d("LOG:", "Staring OrderFragment with table #: " + mTable.getNumber());
+            mTableController.setTableStatus(mTable, 1);
+            mTable.setStatus(1);
             startActivity(intent);
         }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateTableTable();
     }
 }

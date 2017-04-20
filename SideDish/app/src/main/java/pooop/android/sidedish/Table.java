@@ -18,15 +18,7 @@ public class Table {
         mNum = tableNum;
         mSection = tableSection;
         mOrders = new ArrayList<Order>();
-
-        switch(status){
-            case 0:
-                mStatus = "Empty";
-                break;
-            case 1:
-                mStatus = "Has Orders";
-                break;
-        }
+        setStatus(status);
     }
 
     /* Add all orders from a list */
@@ -41,6 +33,17 @@ public class Table {
 
     public String getStatus(){
         return mStatus;
+    }
+
+    public void setStatus(int status){
+        switch(status){
+            case 0:
+                mStatus = "Empty";
+                break;
+            case 1:
+                mStatus = "Active";
+                break;
+        }
     }
 
     public String getSection(){
