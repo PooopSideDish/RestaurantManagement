@@ -1,7 +1,7 @@
 # SideDish POOOP project
 
 ### TODO:
-- [ ] Update Table Status on order creation and deletion
+- [x] Update Table Status on order creation and deletion
 - [ ] Add Order number to order screen
 - [ ] Add item status to order screen
 - [ ] Add comment to item from order screen
