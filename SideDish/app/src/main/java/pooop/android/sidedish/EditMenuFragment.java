@@ -219,11 +219,13 @@ public class EditMenuFragment extends Fragment {
                                 mDeleteItemFlag = false;
                     }
                     else {
-                        double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
-                        String newTitle = String.valueOf(titleInput.getText());
-                        String oldTitle = mItem.getTitle();
+                        try {
+                            double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
+                            String newTitle = String.valueOf(titleInput.getText());
+                            String oldTitle = mItem.getTitle();
 
-                        mMenuController.editMenuItem(oldTitle, newTitle, newPrice);
+                            mMenuController.editMenuItem(oldTitle, newTitle, newPrice);
+                        } catch(NumberFormatException nfe){}
                     }
 
                     updateEditMenuScreen();

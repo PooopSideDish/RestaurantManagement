@@ -6,7 +6,7 @@
 - [ ] Add item status to order screen
 - [ ] Add comment to item from order screen
 - [ ] Redesign kitchen queue rows to display comments on an item
-- [ ] Design kitchen queue rows to be spaced nicely
+- [x] Design kitchen queue rows to be spaced nicely
 - [ ] View comment on item from queue screen
 - [ ] Change item's status from queue screen
 - [x] Change table table columns to: number, section, status
