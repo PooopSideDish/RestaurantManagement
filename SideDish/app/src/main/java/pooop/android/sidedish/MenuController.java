@@ -40,6 +40,11 @@ public class MenuController {
         return retArray;
     }
 
+    public void hideMenuItem(String name){
+
+
+    }
+
     public SideDishMenuItem getMenuItemByName(String name){
         if(name == null || name.length() <= 0) return null;
         return mDBHelper.getMenuItemByName(name);

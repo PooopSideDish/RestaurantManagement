@@ -189,8 +189,19 @@ public class EditMenuFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
 
                     if(mDeleteItemFlag){
-                        mMenuController.deleteMenuItem(mItem);
-                        mDeleteItemFlag = false;
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage("Are you sure you want to delete this menu item?")
+                                .setCancelable(false)
+                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        mMenuController.deleteMenuItem(mItem);
+                                        updateEditMenuScreen();
+                                    }
+                                })
+                                // they cancelled, so reset mDeleteItemFlag otherwise it'll mess up on next deletion attempt
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                                mDeleteItemFlag = false;
                     }
                     else {
                         double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
