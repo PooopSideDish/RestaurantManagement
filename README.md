@@ -18,9 +18,9 @@
 - [ ] Ensure that no two menu items have the same name
 - [ ] Ensure that no two users have the same id
 - [ ] Make admin default login for case where app has no users
-- [ ] Add password checking for login
+- [x] Add password checking for login
 - [ ] Restrict the kitchen staff to only kitchen view
-- [ ] Restrict the waitstaff to only tables, orders, kitchen view
+- [ ] Restrict the waitstaff to only tables, orders
 
 
 ### Requirements Traceability Matrix
