@@ -1,7 +1,9 @@
 package pooop.android.sidedish;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -189,9 +191,18 @@ public class OrderFragment extends Fragment {
             mDeleteItemButton.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    mOrderController.removeItemFromOrder(mOrder.getNumber(), mOrder.getItem(mPosition));
-                    mOrder.removeItem(mPosition);
-                    updateOrder();
+                    new AlertDialog.Builder(getActivity())
+                            .setMessage("Are you sure you want to remove this item from the order?")
+                            .setCancelable(false)
+                            .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    mOrderController.removeItemFromOrder(mOrder.getNumber(), mOrder.getItem(mPosition));
+                                    mOrder.removeItem(mPosition);
+                                    updateOrder();
+                                }
+                            })
+                            .setNegativeButton("Cancel", null)
+                            .show();
                 }
             });
         }

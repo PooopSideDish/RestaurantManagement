@@ -5,14 +5,17 @@
     android:orientation="horizontal"
     android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_gravity="center_horizontal">
+    android:paddingBottom="10dp"
+    android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/table_number_text_view"
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:textSize="24sp"
-        android:layout_margin="10dp"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textColor="#FFFFFF"
         tools:text="test"
         />
 
@@ -20,8 +23,10 @@
         android:id="@+id/table_section_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:layout_margin="10dp"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:layout_weight="1"
         tools:text="test"
         />
 
@@ -29,8 +34,10 @@
         android:id="@+id/table_status_text_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="24sp"
-        android:layout_margin="10dp"
+        android:textSize="30sp"
+        android:gravity="center"
+        android:textColor="#FFFFFF"
+        android:layout_weight="1"
         tools:text="test"
         />
 

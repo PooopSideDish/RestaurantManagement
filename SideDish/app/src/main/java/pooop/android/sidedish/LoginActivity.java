@@ -15,11 +15,13 @@ public class LoginActivity extends AppCompatActivity {
 
     private static final String MANAGER_LOGIN_TEST = "pooop";
 
+
     private EditText mLoginEditText;
     private EditText mPasswordEditText;
     private Button mLoginButton;
     private String mLoginStr = "";
     private String mLoginPwd = "";
+    private Employee currEmployee;
 
     private UserController mUserController;
 
@@ -34,7 +36,10 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mUserController = UserController.getInstance(this);
-
+        // create admin if not already created
+        if(mUserController.isValidUser("admin", "admin") == false){
+            mUserController.addUser("admin", 1, "admin");
+        }
         setContentView(R.layout.activity_login);
 
         mLoginEditText = (EditText) findViewById(R.id.login_edit_text);
@@ -79,11 +84,15 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(mUserController.isValidUser(mLoginStr, mLoginPwd) || mLoginStr.equals(MANAGER_LOGIN_TEST)){
-                    Intent intent = WaitStaffActivity.newIntent(getApplicationContext());
-                    startActivity(intent);
+                        Employee currEmployee = mUserController.getEmployeeInfo(mLoginStr, mLoginPwd);
+                        Intent intent = WaitStaffActivity.newIntent(getApplicationContext());
+                        intent.putExtra("type", currEmployee.getTypeInt());
+                        startActivity(intent);
 
-                    // Back button to exit app rather than logout
-                    finish();
+                        // Back button to exit app rather than logout
+                        finish();
+
+
                 }
                 else{
                     Toast.makeText(LoginActivity.this, R.string.login_fail, Toast.LENGTH_SHORT)

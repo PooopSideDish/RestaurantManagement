@@ -12,6 +12,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 
 public class WaitStaffActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -24,6 +25,7 @@ public class WaitStaffActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wait_staff);
+
 
         // Set default fragment to TableTableFragment
         TableTableFragment tableTableFragment = new TableTableFragment();
@@ -41,7 +43,28 @@ public class WaitStaffActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
+        // receive bundle with user's type, hide buttons based on that
+        Bundle b = new Bundle();
+        b = getIntent().getExtras();
+        int userType = b.getInt("type");
+
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if(userType == 1){
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.manager_nav);
+        }
+        if(userType == 2){
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.wait_staff_nav);
+        }
+        if(userType == 3){
+            navigationView.getMenu().clear();
+            navigationView.inflateMenu(R.menu.kitchen_staff_nav);
+            KitchenFragment kitchenFragment = new KitchenFragment();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, kitchenFragment)
+                    .commit();
+        }
         navigationView.setNavigationItemSelectedListener(this);
     }
 
@@ -59,6 +82,8 @@ public class WaitStaffActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.wait_staff, menu);
+
+
         return true;
     }
 
@@ -108,6 +133,12 @@ public class WaitStaffActivity extends AppCompatActivity
             EditMenuFragment editMenuFragment = new EditMenuFragment();
             fm.beginTransaction()
                     .replace(R.id.fragment_container, editMenuFragment)
+                    .commit();
+        }
+         else if (id == R.id.nav_statistics){
+            EditMenuFragment statisticFragment = new EditMenuFragment();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, statisticFragment)
                     .commit();
         }
 

@@ -35,6 +35,8 @@ public class EditUsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().setTitle("Manage Users");
+
         View view = inflater.inflate(R.layout.fragment_edit_users, container, false);
         mUserController = UserController.getInstance(getActivity());
 
@@ -83,9 +85,24 @@ public class EditUsersFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         String id = String.valueOf(userIDInput.getText());
                         String password = String.valueOf(passwordInput.getText());
-                        mUserController.addUser(id, mNewUserType, password);
+                        if(mUserController.doesUserExist(id) == true){
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Error! That user already exists")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //don't need code here, nothing happens -- just an alert
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
 
-                        updateEditUsersScreen();
+                        }
+                        else{
+                            mUserController.addUser(id, mNewUserType, password);
+                            updateEditUsersScreen();
+                        }
+
                     }
                 });
 
@@ -229,16 +246,30 @@ public class EditUsersFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if(mDeleteUserFlag){
-                        mUserController.deleteUser(mUser);
-                        mDeleteUserFlag = false;
+                        // if they want to delete a user, use a confirmation dialogue to confirm
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage("Are you sure you want to delete this user? This cannot be undone.")
+                                .setCancelable(false)
+                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        mUserController.deleteUser(mUser);
+                                        mDeleteUserFlag = false;
+                                        updateEditUsersScreen();
+                                    }
+                                })
+                                // they cancelled, so reset mDeleteUserFlag otherwise it'll mess up on next deletion attempt
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                                mDeleteUserFlag = false;
                     }
                     else {
                         String id = String.valueOf(userIDInput.getText());
                         String password = String.valueOf(passwordInput.getText());
                         mUserController.editUser(mUser.getID(), id, mNewUserType, password);
+                        updateEditUsersScreen();
                     }
 
-                    updateEditUsersScreen();
+
                 }
             });
 

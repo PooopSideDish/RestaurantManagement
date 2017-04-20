@@ -23,6 +23,8 @@ public class KitchenFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_kitchen, container, false);
 
+        getActivity().setTitle("Kitchen View");
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.kitchen_queue_recycler_view);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 

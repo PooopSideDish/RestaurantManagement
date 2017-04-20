@@ -11,6 +11,7 @@ public class UserController {
     private Context mContext;
     private List<Employee> mUsers;
     private SideDishDataBaseHelper mDBHelper;
+    private Employee currEmployee;
 
     public static UserController getInstance(Context context) {
         if(sUserController == null) sUserController = new UserController(context);
@@ -47,5 +48,24 @@ public class UserController {
             if((mUsers.get(i).getID().equals(id)) && mUsers.get(i).getPassword().equals(pwd)) return true;
         }
         return false;
+    }
+    public Employee getEmployeeInfo(String id, String pwd){
+        for(int i = 0; i < mUsers.size(); i++){
+            if((mUsers.get(i).getID().equals(id)) && mUsers.get(i).getPassword().equals(pwd)){
+                currEmployee = mUsers.get(i);
+                return currEmployee;
+            }
+
+
+        }
+        return null;
+    }
+    public boolean doesUserExist(String id){
+        for(int i = 0; i < mUsers.size(); i++){
+            if((mUsers.get(i).getID().equals(id))){
+                return true;
+            }
+        }
+    return false;
     }
 }

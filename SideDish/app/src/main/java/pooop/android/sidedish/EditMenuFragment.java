@@ -30,6 +30,7 @@ public class EditMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
 
+        getActivity().setTitle("Manage Menu");
         View view = inflater.inflate(R.layout.fragment_edit_menu, container, false);
         mMenuController = MenuController.getInstance(getActivity());
 
@@ -60,10 +61,25 @@ public class EditMenuFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         double price = Double.valueOf(String.valueOf(priceInput.getText()));
                         String title = String.valueOf(titleInput.getText());
+                        if(mMenuController.getMenuItemByName(title) == null){
+                            mMenuController.addMenuItem(title, price);
+                            updateEditMenuScreen();
+                        }
+                        else{
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Error! That menu item already exists")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //don't need code here, nothing happens -- just an alert
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
 
-                        mMenuController.addMenuItem(title, price);
 
-                        updateEditMenuScreen();
+
                     }
                 });
 
@@ -188,15 +204,28 @@ public class EditMenuFragment extends Fragment {
                 public void onClick(DialogInterface dialog, int which) {
 
                     if(mDeleteItemFlag){
-                        mMenuController.deleteMenuItem(mItem);
-                        mDeleteItemFlag = false;
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage("Are you sure you want to delete this menu item?")
+                                .setCancelable(false)
+                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        mMenuController.deleteMenuItem(mItem);
+                                        updateEditMenuScreen();
+                                    }
+                                })
+                                // they cancelled, so reset mDeleteItemFlag otherwise it'll mess up on next deletion attempt
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                                mDeleteItemFlag = false;
                     }
                     else {
-                        double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
-                        String newTitle = String.valueOf(titleInput.getText());
-                        String oldTitle = mItem.getTitle();
+                        try {
+                            double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
+                            String newTitle = String.valueOf(titleInput.getText());
+                            String oldTitle = mItem.getTitle();
 
-                        mMenuController.editMenuItem(oldTitle, newTitle, newPrice);
+                            mMenuController.editMenuItem(oldTitle, newTitle, newPrice);
+                        } catch(NumberFormatException nfe){}
                     }
 
                     updateEditMenuScreen();

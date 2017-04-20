@@ -38,6 +38,7 @@ public class TableTableFragment extends Fragment{
 
         View view = layoutInflater.inflate(R.layout.fragment_table_table, container, false);
 
+        getActivity().setTitle("Table Table View");
         mTableController = TableController.getInstance(getActivity());
         mDeleteTableFlag = false;
 
