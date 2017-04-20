@@ -87,13 +87,13 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     }
 
     public ArrayList<Employee> getUsers(){
-        Cursor cursor = mDatabase.rawQuery("SELECT id, type FROM users ORDER BY id ASC;", null);
+        Cursor cursor = mDatabase.rawQuery("SELECT id, type, password FROM users ORDER BY id ASC;", null);
         ArrayList<Employee> retList = new ArrayList<>();
 
         cursor.moveToFirst();
         try {
             while (!cursor.isAfterLast()) {
-                retList.add(new Employee(cursor.getString(0), cursor.getInt(1), cursor.getString(0)));
+                retList.add(new Employee(cursor.getString(0), cursor.getInt(1), cursor.getString(2)));
                 cursor.moveToNext();
             }
         }
@@ -105,7 +105,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     }
 
     public void addUser(String id, int type, String password){
-        mDatabase.execSQL("INSERT INTO users VALUES (?, ?, ?);",
+        mDatabase.execSQL("INSERT INTO users (id, type, password) VALUES (?, ?, ?);",
                 new String[]{id, String.valueOf(type), password});
     }
 
@@ -217,18 +217,13 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     }
 
     public void editTable(int tableNum, String newSection) {
-        mDatabase.execSQL("UPDATE tables SET section=? WHERE id==?;",
+        mDatabase.execSQL("UPDATE tables SET section=? WHERE id=?;",
                 new String[]{newSection, String.valueOf(tableNum)});
     }
 
     public void deleteTable(int tableNum){
-        mDatabase.execSQL("DELETE FROM tables WHERE id==?;",
+        mDatabase.execSQL("DELETE FROM tables WHERE id=?;",
                 new String[]{String.valueOf(tableNum)});
-    }
-
-    public void setTableStatus(Table table, int status){
-        mDatabase.execSQL("UPDATE tables SET status=? WHERE id==?;",
-                new String[]{String.valueOf(status), String.valueOf(table.getNumber())});
     }
 
     public ArrayList<SideDishMenuItem> getOrderQueue(){
@@ -295,7 +290,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
     /* Removing an order from order_queue should NOT remove the order from orders or order_details */
     public void removeOrderFromQueue(Order o){
-        mDatabase.execSQL("DELETE FROM order_queue WHERE order_number==?",
+        mDatabase.execSQL("delete from order_queue where order_number==?",
                 new String[]{String.valueOf(o.getNumber())});
     }
 
@@ -377,7 +372,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         for(int i=0; i < o.getItems().size(); i++){
             String title = o.getItems().get(i).getTitle();
             mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, " +
-                    "(SELECT id FROM menu WHERE title==?)" +
+                    "(SELECT id FROM menu WHERE title=?)" +
                     ");", new String[]{year, month, day, hour, minute, second, title});
         }
     }
