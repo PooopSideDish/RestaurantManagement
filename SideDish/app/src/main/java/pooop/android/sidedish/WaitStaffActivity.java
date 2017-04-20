@@ -135,6 +135,12 @@ public class WaitStaffActivity extends AppCompatActivity
                     .replace(R.id.fragment_container, editMenuFragment)
                     .commit();
         }
+         else if (id == R.id.nav_statistics){
+            EditMenuFragment statisticFragment = new EditMenuFragment();
+            fm.beginTransaction()
+                    .replace(R.id.fragment_container, statisticFragment)
+                    .commit();
+        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

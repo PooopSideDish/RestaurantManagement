@@ -231,16 +231,30 @@ public class EditUsersFragment extends Fragment {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     if(mDeleteUserFlag){
-                        mUserController.deleteUser(mUser);
-                        mDeleteUserFlag = false;
+                        // if they want to delete a user, use a confirmation dialogue to confirm
+                        new AlertDialog.Builder(getActivity())
+                                .setMessage("Are you sure you want to delete this user? This cannot be undone.")
+                                .setCancelable(false)
+                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        mUserController.deleteUser(mUser);
+                                        mDeleteUserFlag = false;
+                                        updateEditUsersScreen();
+                                    }
+                                })
+                                // they cancelled, so reset mDeleteUserFlag otherwise it'll mess up on next deletion attempt
+                                .setNegativeButton("Cancel", null)
+                                .show();
+                                mDeleteUserFlag = false;
                     }
                     else {
                         String id = String.valueOf(userIDInput.getText());
                         String password = String.valueOf(passwordInput.getText());
                         mUserController.editUser(mUser.getID(), id, mNewUserType, password);
+                        updateEditUsersScreen();
                     }
 
-                    updateEditUsersScreen();
+
                 }
             });
 

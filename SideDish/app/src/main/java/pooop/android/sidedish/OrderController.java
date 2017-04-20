@@ -50,6 +50,7 @@ public class OrderController {
 
     /* Remove an item from the Database */
     public void removeItemFromOrder(int orderNum, SideDishMenuItem item){
+
         mDBHelper.removeItemFromOrder(orderNum, item);
     }
 

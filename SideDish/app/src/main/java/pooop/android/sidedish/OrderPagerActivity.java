@@ -1,6 +1,8 @@
 package pooop.android.sidedish;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -84,26 +86,36 @@ public class OrderPagerActivity extends AppCompatActivity {
             @Override
             public void onClick(View v){
                 // TODO: add warning dialog here to confirm deletion
+                new AlertDialog.Builder(OrderPagerActivity.this)
+                        .setMessage("Are you sure you want to delete the entire order?")
+                        .setCancelable(false)
+                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Get the order's index from the PagerAdapter
+                                int curIndex = mViewPager.getCurrentItem();
+                                mTableController.removeOrderFromTable(curIndex, mTable);
+                                mTable.removeOrder(curIndex);
 
-                // Get the order's index from the PagerAdapter
-                int curIndex = mViewPager.getCurrentItem();
-                mTableController.removeOrderFromTable(curIndex, mTable);
-                mTable.removeOrder(curIndex);
+                                // Too tired to slog through stack exchange and figure out how to properly remove
+                                // a page so here I'm actually just resetting the whole thing. It works great!
+                                mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
+                                mViewPager.setAdapter(mPagerAdapter);
 
-                // Too tired to slog through stack exchange and figure out how to properly remove
-                // a page so here I'm actually just resetting the whole thing. It works great!
-                mPagerAdapter = new PagerAdapter(getSupportFragmentManager());
-                mViewPager.setAdapter(mPagerAdapter);
+                                // If divide by zero exception, the table is out of orders
+                                try {
+                                    mViewPager.setCurrentItem((curIndex + 1) % mTable.getNumOrders());
+                                } catch(ArithmeticException e){
+                                    mTableController.removeAllOrdersFromTable(mTable);
+                                    mTableController.setTableStatus(mTable, 0);
+                                    mTable.setStatus(0);
+                                    finish();
+                                }
+                            }
+                        })
+                        .setNegativeButton("Cancel", null)
+                        .show();
 
-                // If divide by zero exception, the table is out of orders
-                try {
-                    mViewPager.setCurrentItem((curIndex + 1) % mTable.getNumOrders());
-                } catch(ArithmeticException e){
-                    mTableController.removeAllOrdersFromTable(mTable);
-                    mTableController.setTableStatus(mTable, 0);
-                    mTable.setStatus(0);
-                    finish();
-                }
+
             }
         });
     }
