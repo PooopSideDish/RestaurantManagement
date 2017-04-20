@@ -61,10 +61,25 @@ public class EditMenuFragment extends Fragment {
                     public void onClick(DialogInterface dialog, int which) {
                         double price = Double.valueOf(String.valueOf(priceInput.getText()));
                         String title = String.valueOf(titleInput.getText());
+                        if(mMenuController.getMenuItemByName(title) == null){
+                            mMenuController.addMenuItem(title, price);
+                            updateEditMenuScreen();
+                        }
+                        else{
+                            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                            builder.setMessage("Error! That menu item already exists")
+                                    .setCancelable(false)
+                                    .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                                        public void onClick(DialogInterface dialog, int id) {
+                                            //don't need code here, nothing happens -- just an alert
+                                        }
+                                    });
+                            AlertDialog alert = builder.create();
+                            alert.show();
+                        }
 
-                        mMenuController.addMenuItem(title, price);
 
-                        updateEditMenuScreen();
+
                     }
                 });
 
