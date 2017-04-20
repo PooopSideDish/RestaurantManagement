@@ -15,6 +15,7 @@ import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -59,12 +60,14 @@ public class EditMenuFragment extends Fragment {
                 builder.setPositiveButton("OK", new DialogInterface.OnClickListener(){
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        double price = Double.valueOf(String.valueOf(priceInput.getText()));
-                        String title = String.valueOf(titleInput.getText());
+                        try {
+                            double price = Double.valueOf(String.valueOf(priceInput.getText()));
+                            String title = String.valueOf(titleInput.getText());
 
-                        mMenuController.addMenuItem(title, price);
+                            mMenuController.addMenuItem(title, price);
 
-                        updateEditMenuScreen();
+                            updateEditMenuScreen();
+                        } catch(NumberFormatException nfe){                        }
                     }
                 });
 
