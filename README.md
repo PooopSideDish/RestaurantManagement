@@ -9,14 +9,14 @@
 - [ ] Design kitchen queue rows to be spaced nicely
 - [ ] View comment on item from queue screen
 - [ ] Change item's status from queue screen
-- [ ] Change table table columns to: number, section, status
-- [ ] Space out table table rows to match columns
+- [x] Change table table columns to: number, section, status
+- [x] Space out table table rows to match columns
 - [ ] Add all items in a submitted order to the history table for statistics
 - [ ] Create Statistics Screen and wire it to the nav drawer
 - [ ] Statistics date pickers
 - [x] Add confirm deletion dialogs for orders, menu items, and users
-- [ ] Ensure that no two menu items have the same name
-- [ ] Ensure that no two users have the same id
+- [x] Ensure that no two menu items have the same name
+- [x] Ensure that no two users have the same id
 - [x] Make admin default login for case where app has no users
 - [x] Add password checking for login
 - [x] Restrict the kitchen staff to only kitchen view
@@ -37,7 +37,7 @@
 - [ ] The system shall have data inputs of new orders, update status of those orders, add new reservations and have data outputs of receipts and sales manifests. 
 - [ ] The system shall have dates/times in the format of MM/DD/YYYY, HH:MM AM/PM. It will have employee IDs, and table numbers in integer format. All data will have to be accurate in order to properly work. 
 - [x] Waiters shall be able to place orders into a queue for future interaction 
-- [ ] Waiters/Managers shall be able to modify orders after they are in queue 
+- [x] Waiters/Managers shall be able to modify orders after they are in queue 
 - [x] The program shall be able to uniquely distinguish between each order placed 
 - [x] The system shall be able to display the current orders in the queue. 
 - [x] The Kitchen staff shall be able to set items in the queue to the ready position
