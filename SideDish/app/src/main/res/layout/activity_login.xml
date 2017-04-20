@@ -54,6 +54,7 @@
 
         <EditText
             android:id="@+id/password_edit_text"
+            android:inputType="textPassword"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
