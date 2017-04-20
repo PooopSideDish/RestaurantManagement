@@ -30,6 +30,7 @@ public class EditMenuFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState){
 
+        getActivity().setTitle("Manage Menu");
         View view = inflater.inflate(R.layout.fragment_edit_menu, container, false);
         mMenuController = MenuController.getInstance(getActivity());
 

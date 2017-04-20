@@ -35,6 +35,8 @@ public class EditUsersFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        getActivity().setTitle("Manage Users");
+
         View view = inflater.inflate(R.layout.fragment_edit_users, container, false);
         mUserController = UserController.getInstance(getActivity());
 
