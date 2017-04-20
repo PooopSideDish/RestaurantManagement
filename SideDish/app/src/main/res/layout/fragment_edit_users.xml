@@ -1,32 +1,65 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:background="@drawable/app_background_plain"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="200dp"
+        android:layout_marginBottom="20dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="User"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="35sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Type"
+            android:textStyle="bold"
+            android:textColor="#FFFFFF"
+            android:gravity="center"
+            android:layout_weight="1"
+            android:textSize="35sp" />
+
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/edit_user_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
-        android:paddingTop="82dp"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:layout_height="700dp"
+        android:paddingLeft="20dp"
+        android:paddingTop="15dp"
         android:paddingBottom="50dp"
         >
 
     </android.support.v7.widget.RecyclerView>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
 
-        <Button
-            android:id="@+id/new_user_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="New User"
-            android:layout_margin="15dp"/>
-    </LinearLayout>
+    <Button
+        android:id="@+id/new_user_button"
+        android:background="#FF5A595B"
+        android:textColor="#FFFFFF"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:text="New User"
+        android:textSize="30sp"
+        android:layout_margin="30dp"
+        android:padding="30dp"
+        android:layout_marginBottom="95dp"/>
+
 
 </LinearLayout>
 

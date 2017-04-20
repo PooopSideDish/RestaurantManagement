@@ -11,12 +11,14 @@
         android:id="@+id/menu_item_auto_complete"
         android:layout_width="425dp"
         android:layout_height="wrap_content"
+        android:textColor="#FFFFFF"
         android:textSize="24sp" />
 
         <TextView
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:textColor="#FFFFFF"
             android:text="$"
             android:textSize="24sp"
         />
@@ -25,6 +27,7 @@
             android:id="@+id/menu_item_price_text_view"
             android:layout_width="100dp"
             android:layout_height="wrap_content"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
             tools:text="100.00"
         />
