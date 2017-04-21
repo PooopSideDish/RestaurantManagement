@@ -1,6 +1,7 @@
 package pooop.android.sidedish;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -35,8 +36,15 @@ public class MenuController {
     }
 
     public String[] getMenuTitles(){
-        String[] retArray = new String[mMenuItemList.size()];
-        for(int i = 0; i < mMenuItemList.size(); i++) retArray[i] = mMenuItemList.get(i).getTitle();
+        ArrayList<String> beginArray = new ArrayList<>();
+        int j=0;
+        for(int i = 0; i < mMenuItemList.size(); i++)
+            if(mMenuItemList.get(i).getVisibility() == 1) {
+                beginArray.add(mMenuItemList.get(i).getTitle());
+                j++;
+            }
+        String[] retArray = new String[beginArray.size()];
+        for(int i=0;i< beginArray.size();i++) retArray[i] = beginArray.get(i);
         return retArray;
     }
 
