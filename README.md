@@ -3,12 +3,12 @@
 ### TODO:
 - [x] Update Table Status on order creation and deletion
 - [x] Add Order number to order screen
-- [ ] Add item status to order screen
-- [ ] Add comment to item from order screen
-- [ ] Redesign kitchen queue rows to display comments on an item
+- [x] Add item status to order screen
+- [x] Add comment to item from order screen
+- [x] Redesign kitchen queue rows to display comments on an item
 - [x] Design kitchen queue rows to be spaced nicely
-- [ ] View comment on item from queue screen
-- [ ] Change item's status from queue screen
+- [x] View comment on item from queue screen
+- [x] Change item's status from queue screen
 - [x] Change table table columns to: number, section, status
 - [x] Space out table table rows to match columns
 - [ ] Add all items in a submitted order to the history table for statistics

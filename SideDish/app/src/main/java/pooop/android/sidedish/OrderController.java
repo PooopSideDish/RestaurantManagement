@@ -43,6 +43,10 @@ public class OrderController {
         mDBHelper.recordOrder(o);
     }
 
+    public Order getOrderByNumber(int orderNum){
+        return mDBHelper.getOrderByNumber(orderNum);
+    }
+
     public void removeOrderFromQueue(Order o){
         mDBHelper.removeOrderFromQueue(o);
         mQueue = mDBHelper.getOrderQueue();

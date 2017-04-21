@@ -34,6 +34,11 @@ public class SideDishMenuItem {
         return mStatus;
     }
 
+    public void progressStatus(){
+        // if status > 2 -> remove order from queue
+        mStatus++;
+    }
+
     public double getPrice(){
         return mPrice;
     }

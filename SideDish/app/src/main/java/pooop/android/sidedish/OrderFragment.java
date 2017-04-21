@@ -255,6 +255,7 @@ public class OrderFragment extends Fragment {
                 mMenuItemPrice.setText(String.format("%.2f", mItem.getPrice()));
                 mAutoCompleteTextView.setText(mItem.getTitle());
                 mDeleteItemButton.setClickable(true);
+                mOrderStatusTextView.setText(mItem.getStatusString());
             }
         }
     }

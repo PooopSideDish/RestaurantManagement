@@ -172,6 +172,13 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         return orderList;
     }
 
+    public Order getOrderByNumber(int orderNum){
+        Order order = new Order(orderNum);
+        order.addItems(getMenuItemsByOrderID(orderNum));
+
+        return order;
+    }
+
     /* Query the database and build all items for a specified order */
     public ArrayList<SideDishMenuItem> getMenuItemsByOrderID(int orderNum) {
         Log.d("LOG:", "Getting all items for order #" + orderNum + " from database");
@@ -252,7 +259,8 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
             ArrayList<SideDishMenuItem> orderItems = getMenuItemsByOrderID(orderCursor.getInt(6));
             Log.d("LOG:", "There are *" + orderItems.size() + "* items associated with order #" + orderCursor.getInt(6));
             for(int i=0; i<orderItems.size(); i++){
-                queue.add(orderItems.get(i));
+                Log.d("LOG:", "Item " + i + " has status: " + orderItems.get(i).getStatusInt());
+                if(orderItems.get(i).getStatusInt() <= 2) queue.add(orderItems.get(i));
             }
 
             orderCursor.moveToNext();
@@ -334,7 +342,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         String itemID = String.valueOf(newItem.getID());
         String itemComment = newItem.getComment();
         String itemStatus  = String.valueOf(newItem.getStatusInt());
-        Log.d("LOG:", "Inserting menu item #" + itemID + " into order #" + orderNum);
+        Log.d("LOG:", "Inserting menu item #" + itemID + " status: " + itemStatus + " into order #" + orderNum);
         mDatabase.execSQL("INSERT INTO order_details VALUES (?, ?, ?, ?);",
                 new String[]{String.valueOf(itemID), itemComment, itemStatus, String.valueOf(orderNum)});
     }
