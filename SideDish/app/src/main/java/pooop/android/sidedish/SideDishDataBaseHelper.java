@@ -397,9 +397,9 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
         // For every title, insert a title and date into the history
         for(int i=0; i < o.getItems().size(); i++){
-            String title = o.getItems().get(i).getTitle();
+            String itemID = String.valueOf(o.getItems().get(i).getID());
             mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
-                    new String[]{year, month, day, hour, minute, second, String.valueOf(timestamp)});
+                    new String[]{year, month, day, hour, minute, second, String.valueOf(timestamp), itemID});
         }
     }
     
