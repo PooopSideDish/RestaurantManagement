@@ -16,10 +16,7 @@
         android:gravity="left"
         android:textSize="30sp"
         android:textColor="#FFFFFF"
-        android:text="test"
         android:layout_weight="1"
-
-
         />
 
     <TextView
@@ -39,7 +36,6 @@
         android:layout_height="wrap_content"
         android:textColor="#FFFFFF"
         android:textSize="30sp"
-        android:text="test"
         android:gravity="left"
         android:layout_weight=".5"
         />

@@ -15,161 +15,74 @@
         android:layout_gravity="center_horizontal"
         android:textSize="19sp"
         android:textStyle="bold"
-        android:text="Daily Sales by Orders Previous Week " />
-
-    <GridLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:rowCount="2"
-        android:layout_gravity="center_horizontal"
-        android:columnCount="7">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Sun" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Mon" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:text="Tue" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="#FFFFFF"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:text="Wed" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Thu" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Fri" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:text="Sat" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="0" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="0"  />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="0"  />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="0"  />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="0"  />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="0"  />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:textColor="#FFFFFF"
-            android:text="$0"  />
-    </GridLayout>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:paddingTop="45sp"
-        android:layout_gravity="center_horizontal"
-        android:textSize="19sp"
-        android:textStyle="bold"
-        android:text="Top 5 popular Items Previous Month " />
+        android:text="View Statistics for a Specified Date Range" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
-        android:layout_marginBottom="50dp">
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:layout_marginTop="15dp">
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
-            android:textSize="18dp"
+            android:layout_marginRight="45dp"
+            android:text="Start Date"
             android:textColor="#FFFFFF"
-            android:text="Breadsticks" />
+            android:textSize="24sp"
+            />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:textSize="18dp"
+            android:layout_marginLeft="45dp"
+            android:text="End Date"
             android:textColor="#FFFFFF"
-            android:text="Pizza Itliana" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:textSize="18dp"
-            android:textColor="#FFFFFF"
-            android:text="Margarita Pizza" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:textSize="18dp"
-            android:textColor="#FFFFFF"
-            android:text="Pasta Prima" />
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:paddingBottom="10dp"
-            android:textSize="18dp"
-            android:textColor="#FFFFFF"
-            android:text="Steak Flatbread" />
+            android:textSize="24sp"
+            />
+
     </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <Button
+            android:id="@+id/statistics_start_date_button"
+            android:background="#FF5A595B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            tools:text="MM/DD/YYYY"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"
+            android:textSize="20sp"
+            />
+
+        <Button
+            android:id="@+id/statistics_end_date_button"
+            android:background="#FF5A595B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            tools:text="MM/DD/YYYY"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/statistics_recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="525dp"
+        android:layout_margin="35dp">
+
+    </android.support.v7.widget.RecyclerView>
+
 </LinearLayout>
 

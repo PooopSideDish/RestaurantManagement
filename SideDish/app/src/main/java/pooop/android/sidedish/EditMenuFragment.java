@@ -78,9 +78,6 @@ public class EditMenuFragment extends Fragment {
                             AlertDialog alert = builder.create();
                             alert.show();
                         }
-
-
-
                     }
                 });
 
@@ -112,7 +109,6 @@ public class EditMenuFragment extends Fragment {
         // Not very pretty but if a menu item is edited or created, just update the dataset
         // (it's probably small anyway... unless this is the cheesecake factory. That menu is huge)
         mEditMenuAdapter.notifyDataSetChanged();
-
     }
 
     private class EditMenuAdapter extends RecyclerView.Adapter<MenuItemHolder> {
