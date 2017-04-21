@@ -136,7 +136,7 @@ public class WaitStaffActivity extends AppCompatActivity
                     .commit();
         }
          else if (id == R.id.nav_statistics){
-            EditMenuFragment statisticFragment = new EditMenuFragment();
+            StatisticsFragment statisticFragment = new StatisticsFragment();
             fm.beginTransaction()
                     .replace(R.id.fragment_container, statisticFragment)
                     .commit();
