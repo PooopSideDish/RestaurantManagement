@@ -33,6 +33,16 @@ public class Order {
         return mItems.get(position);
     }
 
+    public void incrementItemStatus(SideDishMenuItem item){
+        for(int i=0; i<mItems.size(); i++){
+            SideDishMenuItem curItem = mItems.get(i);
+            if(curItem.getID() == item.getID() && curItem.getStatusInt() == item.getStatusInt()) {
+                curItem.progressStatus();
+                break;
+            }
+        }
+    }
+
     /* it's O(n) lol */
     public double getTotal(){
         double total = 0.0;

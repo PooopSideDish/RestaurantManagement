@@ -16,7 +16,7 @@
         android:textColor="#FFFFFF"
         android:padding="40dp"
         android:gravity="center_horizontal"
-        android:textSize="30dp"
+        android:textSize="35sp"
         android:layout_marginTop="100dp"/>
 
     <LinearLayout
@@ -28,25 +28,15 @@
         android:layout_marginTop="0dp">
 
         <TextView
-            android:layout_width="10dp"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:text="#"
+            android:text="Order #         Menu Item"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:gravity="left"
             android:layout_weight="1"
-            android:textSize="20sp"
-            />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Menu Item"
-            android:textStyle="bold"
-            android:textColor="#FFFFFF"
-            android:gravity="center_horizontal"
-            android:layout_weight="1"
-            android:textSize="20sp"
+            android:textSize="25sp"
+            android:layout_marginLeft="20dp"
             />
 
         <TextView
@@ -55,9 +45,9 @@
             android:text="Status"
             android:textStyle="bold"
             android:textColor="#FFFFFF"
-            android:gravity="right"
-            android:layout_weight="1"
-            android:textSize="20sp"
+            android:gravity="center"
+            android:layout_weight="0.60"
+            android:textSize="25sp"
             android:layout_marginRight="30dp"
             />
 

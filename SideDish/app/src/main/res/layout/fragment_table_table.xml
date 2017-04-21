@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="200dp"
+        android:layout_marginTop="100dp"
         android:text="Table Details"
         android:textColor="#FFFFFF"
         android:textStyle="bold"
@@ -23,6 +23,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:layout_gravity="center_horizontal"
         android:layout_marginTop="25dp"
         android:layout_marginBottom="25dp">
 
@@ -66,10 +67,8 @@
     <android.support.v7.widget.RecyclerView
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/table_recycler_view"
-        android:layout_height="600dp"
+        android:layout_height="650dp"
         android:layout_width="match_parent"
-
-
         >
     </android.support.v7.widget.RecyclerView>
 

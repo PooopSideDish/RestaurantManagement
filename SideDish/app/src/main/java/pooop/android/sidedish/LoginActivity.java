@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 public class LoginActivity extends AppCompatActivity {
 
-    private static final String MANAGER_LOGIN_TEST = "pooop";
-
-
     private EditText mLoginEditText;
     private EditText mPasswordEditText;
     private Button mLoginButton;
@@ -83,7 +80,7 @@ public class LoginActivity extends AppCompatActivity {
         mLoginButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
-                if(mUserController.isValidUser(mLoginStr, mLoginPwd) || mLoginStr.equals(MANAGER_LOGIN_TEST)){
+                if(mUserController.isValidUser(mLoginStr, mLoginPwd)){
                         Employee currEmployee = mUserController.getEmployeeInfo(mLoginStr, mLoginPwd);
                         Intent intent = WaitStaffActivity.newIntent(getApplicationContext());
                         intent.putExtra("type", currEmployee.getTypeInt());

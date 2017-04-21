@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 public class OrderFragment extends Fragment {
@@ -146,7 +147,9 @@ public class OrderFragment extends Fragment {
 
         private AutoCompleteTextView mAutoCompleteTextView;
         private TextView mMenuItemPrice;
+        private TextView mOrderStatusTextView;
         private Button mDeleteItemButton;
+        private Button mAddCommentsButton;
 
         private SideDishMenuItem mItem;
 
@@ -186,6 +189,7 @@ public class OrderFragment extends Fragment {
             });
 
             mMenuItemPrice = (TextView) itemView.findViewById(R.id.menu_item_price_text_view);
+            mOrderStatusTextView = (TextView) itemView.findViewById(R.id.menu_item_status_text_view);
 
             mDeleteItemButton = (Button) itemView.findViewById(R.id.menu_item_delete_button);
             mDeleteItemButton.setOnClickListener(new View.OnClickListener(){
@@ -205,6 +209,35 @@ public class OrderFragment extends Fragment {
                             .show();
                 }
             });
+
+            mAddCommentsButton = (Button) itemView.findViewById(R.id.menu_item_add_comments_button);
+            mAddCommentsButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+                    final EditText commentsInputEditText = new EditText(getActivity());
+                    commentsInputEditText.setHint("Enter Comments");
+                    commentsInputEditText.setText(mItem.getComment());
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Add Comments to Item");
+                    builder.setView(commentsInputEditText);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            String input = String.valueOf(commentsInputEditText.getText());
+                            mItem.setComment(input);
+                            mOrderController.updateOrder(mOrder);
+                        }
+                    });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.cancel();
+                        }
+                    });
+                    builder.show();
+                }
+            });
         }
 
         public void bind(Integer position, SideDishMenuItem item){
@@ -222,6 +255,7 @@ public class OrderFragment extends Fragment {
                 mMenuItemPrice.setText(String.format("%.2f", mItem.getPrice()));
                 mAutoCompleteTextView.setText(mItem.getTitle());
                 mDeleteItemButton.setClickable(true);
+                mOrderStatusTextView.setText(mItem.getStatusString());
             }
         }
     }

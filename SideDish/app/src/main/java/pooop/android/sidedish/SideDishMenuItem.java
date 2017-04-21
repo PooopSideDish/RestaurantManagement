@@ -38,12 +38,21 @@ public class SideDishMenuItem {
         return mStatus;
     }
 
+    public void progressStatus(){
+        // if status > 2 -> remove order from queue
+        mStatus++;
+    }
+
     public double getPrice(){
         return mPrice;
     }
 
     public String getComment(){
         return mComment;
+    }
+
+    public void setComment(String comment){
+        mComment = comment;
     }
 
     public void setOrderNumber(int orderNumber){

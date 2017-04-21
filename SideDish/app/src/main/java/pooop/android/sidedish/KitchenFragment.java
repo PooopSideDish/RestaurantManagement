@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -59,7 +60,6 @@ public class KitchenFragment extends Fragment {
 
         public void updateQueue(){
             mQueue = mOrderController.getQueue();
-            notifyDataSetChanged();
         }
 
         @Override
@@ -81,8 +81,11 @@ public class KitchenFragment extends Fragment {
 
     private class QueueItemHolder extends RecyclerView.ViewHolder{
 
+        private SideDishMenuItem mItem;
+
         private TextView mOrderNumberTextView;
         private TextView mMenuItemTextView;
+        private TextView mMenuItemCommentsTextView;
         private Button mItemStatusButton;
 
         public QueueItemHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -90,15 +93,37 @@ public class KitchenFragment extends Fragment {
 
             mOrderNumberTextView = (TextView) itemView.findViewById(R.id.kitchen_queue_order_number_text_view);
             mMenuItemTextView    = (TextView) itemView.findViewById(R.id.kitchen_queue_menu_item_text_view);
-            mItemStatusButton    = (Button)   itemView.findViewById(R.id.kitchen_queue_update_status_button);
+            mMenuItemCommentsTextView = (TextView) itemView.findViewById(R.id.kitchen_queue_item_status_text_view);
 
+            mItemStatusButton    = (Button)   itemView.findViewById(R.id.kitchen_queue_update_status_button);
+            mItemStatusButton.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v) {
+
+                    // Update the order within the database
+                    Order order = mOrderController.getOrderByNumber(mItem.getOrderNumber());
+                    order.incrementItemStatus(mItem);
+                    mOrderController.updateOrder(order);
+
+                    // Progress item status locally for the screen
+                    mItem.progressStatus();
+
+                    // Update the text
+                    mItemStatusButton.setText(mItem.getStatusString());
+
+                    updateKitchenQueue();
+                }
+            });
         }
 
         public void bind(SideDishMenuItem item){
 
+            mItem = item;
+
             mOrderNumberTextView.setText(String.valueOf(item.getOrderNumber()));
             mMenuItemTextView.setText(item.getTitle());
             mItemStatusButton.setText(item.getStatusString());
+            mMenuItemCommentsTextView .setText(item.getComment());
         }
     }
 }

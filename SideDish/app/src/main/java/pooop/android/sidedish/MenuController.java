@@ -42,7 +42,6 @@ public class MenuController {
 
     public void hideMenuItem(String name){
 
-
     }
 
     public SideDishMenuItem getMenuItemByName(String name){
@@ -52,8 +51,6 @@ public class MenuController {
 
     public void editMenuItem(String oldTitle, String newTitle, double price){
         mDBHelper.editMenuItem(oldTitle, newTitle, price);
-        // I don't know where the menu item that's being updated is at in the list, so just getting
-        // the list from the database again: it's O(n) either way you spin it
         mMenuItemList = mDBHelper.getMenu();
     }
 
@@ -64,8 +61,6 @@ public class MenuController {
 
     public void deleteMenuItem(SideDishMenuItem item){
         mDBHelper.deleteMenuItem(item.getTitle());
-        // There actually is a way to do this in O(1) time using the position arg from the
-        // onBind method. If there's time we should update.
         mMenuItemList = mDBHelper.getMenu();
     }
 }
