@@ -8,23 +8,27 @@ public class SideDishMenuItem {
     private int mStatus;
     private int mID;
     private Integer mOrderNumber;
+    private int mVisibility;
 
-    public SideDishMenuItem(String title, double price, int id){
-        this(title, price, null, 0, id, null);
+    public SideDishMenuItem(String title, double price, int id, int visibility){
+        this(title, price, null, 0, id, null, visibility);
     }
 
-    public SideDishMenuItem(String title, double price, String comment, int status, int id, Integer orderNumber){
+    public SideDishMenuItem(String title, double price, String comment, int status, int id, Integer orderNumber, Integer visibility){
         mTitle   = title;
         mPrice   = price;
         mComment = (comment != null ? comment : "");
         mStatus  = status;
         mID = id;
         mOrderNumber = orderNumber;
+        mVisibility = visibility;
     }
 
     public int getID(){
         return mID;
     }
+
+    public int getVisibility(){ return mVisibility; }
 
     public String getTitle(){
         return mTitle;

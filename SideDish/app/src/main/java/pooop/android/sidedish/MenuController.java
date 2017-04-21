@@ -54,6 +54,11 @@ public class MenuController {
         mMenuItemList = mDBHelper.getMenu();
     }
 
+    public void toggleMenuItemVisibility(String title){
+        mDBHelper.toggleMenuItemVisibility(title);
+        mMenuItemList = mDBHelper.getMenu();
+    }
+
     public void deleteMenuItem(SideDishMenuItem item){
         mDBHelper.deleteMenuItem(item.getTitle());
         mMenuItemList = mDBHelper.getMenu();

@@ -36,7 +36,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         try {
             while (!cursor.isAfterLast()) {
                 //                                    item title            item price         item id
-                retList.add(new SideDishMenuItem(cursor.getString(1), cursor.getDouble(2), cursor.getInt(0)));
+                retList.add(new SideDishMenuItem(cursor.getString(1), cursor.getDouble(2), cursor.getInt(0), cursor.getInt(3)));
                 cursor.moveToNext();
             }
         }
@@ -54,15 +54,30 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         if(cursor.getCount() > 0){
             cursor.moveToFirst();
             //                                    item title            item price         item id
-            retItem = new SideDishMenuItem(cursor.getString(1), cursor.getDouble(2), cursor.getInt(0));
+            retItem = new SideDishMenuItem(cursor.getString(1), cursor.getDouble(2), cursor.getInt(0), cursor.getInt(3));
         }
         cursor.close();
         return retItem;
     }
 
     public void addMenuItem(String title, double price){
-        mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?);",
-                new String[]{title, String.valueOf(price)});
+        mDatabase.execSQL("INSERT INTO menu VALUES (NULL, ?, ?, ?);",
+                new String[]{title, String.valueOf(price), String.valueOf(1)});
+    }
+
+    public void toggleMenuItemVisibility(String title){
+        int curValue = this.getMenuItemByName(title).getVisibility();
+        int newValue;
+        if(curValue == 1) {
+            newValue = 0;
+        }
+        else {
+            newValue = 1;
+        }
+        Log.v("Log",String.valueOf(newValue));
+
+        mDatabase.execSQL("UPDATE menu SET visible=? WHERE title=?;",
+                new String[]{String.valueOf(newValue), title});
     }
 
     public void editMenuItem(String oldTitle, String newTitle, double price) {
@@ -209,7 +224,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
             String comment = detailsCursor.getString(1);
             int status = detailsCursor.getInt(2);
 
-            itemList.add(new SideDishMenuItem(title, price, comment, status, detailsCursor.getInt(0), detailsCursor.getInt(3)));
+            itemList.add(new SideDishMenuItem(title, price, comment, status, detailsCursor.getInt(0), detailsCursor.getInt(3), itemCursor.getInt(3)));
 
             itemCursor.close();
             detailsCursor.moveToNext();
@@ -406,7 +421,8 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         mDatabase.execSQL("CREATE TABLE menu (" +
                 "id INTEGER PRIMARY KEY, "      +
                 "title TEXT COLLATE NOCASE, "   +
-                "price DOUBLE);");
+                "price DOUBLE, "                +
+                "visible INTEGER);");
 
         // Table of active orders
         // order_status: 0 -> new, 1 -> pending, 2 -> in progress, 3 -> complete
