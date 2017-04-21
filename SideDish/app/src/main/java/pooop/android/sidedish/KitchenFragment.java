@@ -83,6 +83,7 @@ public class KitchenFragment extends Fragment {
 
         private TextView mOrderNumberTextView;
         private TextView mMenuItemTextView;
+        private TextView mMenuItemCommentsTextView;
         private Button mItemStatusButton;
 
         public QueueItemHolder(LayoutInflater inflater, ViewGroup parent) {
@@ -91,6 +92,7 @@ public class KitchenFragment extends Fragment {
             mOrderNumberTextView = (TextView) itemView.findViewById(R.id.kitchen_queue_order_number_text_view);
             mMenuItemTextView    = (TextView) itemView.findViewById(R.id.kitchen_queue_menu_item_text_view);
             mItemStatusButton    = (Button)   itemView.findViewById(R.id.kitchen_queue_update_status_button);
+            mMenuItemCommentsTextView = (TextView) itemView.findViewById(R.id.kitchen_queue_item_status_text_view);
 
         }
 
@@ -99,6 +101,7 @@ public class KitchenFragment extends Fragment {
             mOrderNumberTextView.setText(String.valueOf(item.getOrderNumber()));
             mMenuItemTextView.setText(item.getTitle());
             mItemStatusButton.setText(item.getStatusString());
+            mMenuItemCommentsTextView .setText(item.getComment());
         }
     }
 }
