@@ -31,7 +31,7 @@
 - [x] Restaurant managers shall be able to modify/add menu items 
 - [x] The price of the menu items shall be a floating point number with two decimal precision ($XX.XX) 
 - [x] The database shall retain price information for every menu item. If a menu item is deleted, that information will be removed. 
-- [ ] Menu items shall be toggleable to determine visibility 
+- [x] Menu items shall be toggleable to determine visibility 
 - [ ] The system shall have data inputs of new orders, update status of those orders, add new reservations and have data outputs of receipts and sales manifests. 
 - [ ] The system shall have dates/times in the format of MM/DD/YYYY, HH:MM AM/PM. It will have employee IDs, and table numbers in integer format. All data will have to be accurate in order to properly work. 
 - [x] Waiters shall be able to place orders into a queue for future interaction 
