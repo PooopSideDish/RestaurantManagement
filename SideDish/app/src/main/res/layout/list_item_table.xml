@@ -3,41 +3,44 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/list_item_table"
     android:orientation="horizontal"
+    android:layout_width="700dp"
     android:layout_height="wrap_content"
-    android:layout_width="match_parent"
     android:paddingBottom="10dp"
     android:gravity="center_horizontal">
 
     <TextView
         android:id="@+id/table_number_text_view"
-        android:layout_height="30dp"
-        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_width="90dp"
         android:textSize="30sp"
         android:gravity="left"
         android:layout_weight="1"
         android:textColor="#FFFFFF"
+        tools:textColor="#000000"
         tools:text="test"
         android:layout_marginLeft = "30dp"
         />
 
     <TextView
         android:id="@+id/table_section_text_view"
-        android:layout_width="100dp"
+        android:layout_width="275dp"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:gravity="left"
         android:textColor="#FFFFFF"
+        tools:textColor="#000000"
+        android:gravity="left"
         android:layout_weight="1"
         tools:text="test"
         />
 
     <TextView
         android:id="@+id/table_status_text_view"
-        android:layout_width="wrap_content"
+        android:layout_width="30dp"
         android:layout_height="wrap_content"
         android:textSize="30sp"
-        android:gravity="left"
         android:textColor="#FFFFFF"
+        tools:textColor="#000000"
+        android:gravity="left"
         android:layout_weight="1"
         tools:text="test"
         />

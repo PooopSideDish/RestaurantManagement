@@ -42,6 +42,10 @@ public class SideDishMenuItem {
         return mComment;
     }
 
+    public void setComment(String comment){
+        mComment = comment;
+    }
+
     public void setOrderNumber(int orderNumber){
         mOrderNumber = orderNumber;
     }

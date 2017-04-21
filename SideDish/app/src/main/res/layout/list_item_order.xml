@@ -1,29 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="horizontal"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_margin="10dp"
-    android:gravity="center_horizontal">
+    android:layout_margin="10dp" >
 
-    <AutoCompleteTextView
-        android:id="@+id/menu_item_auto_complete"
-        android:layout_width="425dp"
+    <LinearLayout
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="#FFFFFF"
-        android:textSize="24sp"
-        android:layout_marginLeft="30dp"
-        />
+        android:orientation="horizontal"
+        >
+
+        <AutoCompleteTextView
+            android:id="@+id/menu_item_auto_complete"
+            android:layout_width="365dp"
+            android:layout_height="wrap_content"
+            android:textSize="24sp"
+            android:textColor="#FFFFFF"
+            android:backgroundTint="@color/white"
+            android:layout_marginLeft="30dp"
+            />
 
         <TextView
             android:layout_width="20dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
-            android:textColor="#FFFFFF"
             android:text="$"
+            android:textColor="#FFFFFF"
             android:textSize="24sp"
-        />
+            />
 
         <TextView
             android:id="@+id/menu_item_price_text_view"
@@ -32,17 +38,68 @@
             android:textColor="#FFFFFF"
             android:textSize="24sp"
             tools:text="100.00"
-        />
+            />
 
-    <Button
-        android:id="@+id/menu_item_delete_button"
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
-        android:padding="15dp"
-        android:layout_gravity="center_horizontal"
-        android:text="Remove  Item"
-        android:layout_marginLeft="30dp"
-        />
+        android:orientation="horizontal"
+        android:layout_marginLeft="20dp"
+        >
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            >
+
+            <TextView
+                android:layout_width="345dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="Status"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                />
+
+            <TextView
+                android:id="@+id/menu_item_status_text_view"
+                android:layout_width="345dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                tools:text="Panic and freak out"
+                android:textColor="#FFFFFF"
+                android:textSize="24sp"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/menu_item_delete_button"
+            android:background="#FF5A595B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Remove\n Item"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"
+            android:textSize="20sp"
+            />
+
+        <Button
+            android:id="@+id/menu_item_add_comments_button"
+            android:background="#FF5A595B"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="Add\n Comments"
+            android:textColor="#FFFFFF"
+            android:padding="15dp"
+            android:textSize="20sp"
+            />
+
+    </LinearLayout>
 
 </LinearLayout>
