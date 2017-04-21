@@ -84,15 +84,7 @@ public class MenuController {
             startDay = temp;
         }
 
-
-        // TODO : pass start date and end date to DB and retrieve an arraylist of stats
-
-        /* TEST DATA */
-        ArrayList<Statistic> testlist = new ArrayList<>();
-        for (int i = 0; i < 10; i++) testlist.add(new Statistic("hello", 5, (float) 1.0));
-        /* TEST DATA */
-
-        return testlist;
+        return mDBHelper.getStatistics(startDay, startMonth, startYear, endDay, endMonth, endYear);
     }
 
     public void hideMenuItem(String name){

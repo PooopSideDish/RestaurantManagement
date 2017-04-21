@@ -8,6 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 
 public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
@@ -397,17 +398,16 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         // For every title, insert a title and date into the history
         for(int i=0; i < o.getItems().size(); i++){
             String title = o.getItems().get(i).getTitle();
-            mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, ?, " +
-                    "(SELECT id FROM menu WHERE title==?)" +
-                    ");", new String[]{year, month, day, hour, minute, second, String.valueOf(timestamp), title});
+            mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, ?, ?);",
+                    new String[]{year, month, day, hour, minute, second, String.valueOf(timestamp)});
         }
     }
     
-    public ArrayList<Statistic> getStatistics (int fromDate, int fromMonth, int fromYear, int toDate, int toMonth, int toYear) {
+    public ArrayList<Statistic> getStatistics (int fromDay, int fromMonth, int fromYear, int toDay, int toMonth, int toYear) {
         Calendar from = Calendar.getInstance();
         from.set(Calendar.YEAR, fromYear);
         from.set(Calendar.MONTH, fromMonth);
-        from.set(Calendar.DAY_OF_MONTH, fromDate);
+        from.set(Calendar.DAY_OF_MONTH, fromDay);
         from.set(Calendar.HOUR, 0);
         from.set(Calendar.MINUTE, 0);
         from.set(Calendar.SECOND, 0);
@@ -418,7 +418,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         Calendar to = Calendar.getInstance();
         to.set(Calendar.YEAR, toYear);
         to.set(Calendar.MONTH, toMonth);
-        to.set(Calendar.DAY_OF_MONTH, toDate);
+        to.set(Calendar.DAY_OF_MONTH, toDay);
         to.set(Calendar.HOUR, 0);
         to.set(Calendar.MINUTE, 0);
         to.set(Calendar.SECOND, 0);
@@ -426,16 +426,16 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
         long toMillis = to.getTimeInMillis();
 
-        Cursor cursor = mDatabase.rawQuery("SELECT id, FROM history WHERE " +
-                                            fromMillis + " <= timestamp AND " +
-                                            "timestamp <= " + toMillis +
-                                            "ORDER BY id;", null);
+        Cursor cursor = mDatabase.rawQuery("SELECT menu_item_id FROM history " +
+                                            "WHERE  ?<=timestamp AND timestamp<=?;",
+                                            new String[]{String.valueOf(fromMillis), String.valueOf(toMillis)});
 
         ArrayList<Statistic> statistics = new ArrayList<>();
         HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
 
+        cursor.moveToFirst();
         while (cursor.moveToNext()) {
-            int temp = Integer.parseInt(cursor.getString(0));
+            int temp = cursor.getInt(0);
             if (!(counts.containsKey(temp))) {
                 counts.put(temp, 1);
             }
@@ -444,13 +444,20 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
                 counts.put(temp, temp2 + 1);
             }
         }
+        cursor.close();
 
         for (Integer key : counts.keySet()){
-            Cursor namePrice = mDatabase.rawQuery("SELECT title, price FROM MENU WHERE id = " + key, null);
-            String name = namePrice.getString(0);
-            float price = namePrice.getFloat(1);
-            Integer count = counts.get(key);
-            statistics.add(new Statistic(name, count, price));
+            Cursor namePrice = mDatabase.rawQuery("SELECT title, price FROM MENU WHERE id==?;",
+                    new String[]{String.valueOf(key)});
+
+            if(namePrice.getCount() > 0) {
+                namePrice.moveToFirst();
+                String name = namePrice.getString(0);
+                float price = namePrice.getFloat(1);
+                Integer count = counts.get(key);
+                statistics.add(new Statistic(name, count, price));
+            }
+            namePrice.close();
         }
 
         return statistics;
