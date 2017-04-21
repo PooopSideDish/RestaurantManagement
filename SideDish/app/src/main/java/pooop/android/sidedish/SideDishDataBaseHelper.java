@@ -402,7 +402,61 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
                     ");", new String[]{year, month, day, hour, minute, second, String.valueOf(timestamp), title});
         }
     }
+    
+    public ArrayList<Statistic> getStatistics (int fromDate, int fromMonth, int fromYear, int toDate, int toMonth, int toYear) {
+        Calendar from = Calendar.getInstance();
+        from.set(Calendar.YEAR, fromYear);
+        from.set(Calendar.MONTH, fromMonth);
+        from.set(Calendar.DAY_OF_MONTH, fromDate);
+        from.set(Calendar.HOUR, 0);
+        from.set(Calendar.MINUTE, 0);
+        from.set(Calendar.SECOND, 0);
+        from.set(Calendar.MILLISECOND, 0);
 
+        long fromMillis = from.getTimeInMillis();
+
+        Calendar to = Calendar.getInstance();
+        to.set(Calendar.YEAR, toYear);
+        to.set(Calendar.MONTH, toMonth);
+        to.set(Calendar.DAY_OF_MONTH, toDate);
+        to.set(Calendar.HOUR, 0);
+        to.set(Calendar.MINUTE, 0);
+        to.set(Calendar.SECOND, 0);
+        to.set(Calendar.MILLISECOND, 0);
+
+        long toMillis = to.getTimeInMillis();
+
+        Cursor cursor = mDatabase.rawQuery("SELECT id, FROM history WHERE " +
+                                            fromMillis + " <= timestamp AND " +
+                                            "timestamp <= " + toMillis +
+                                            "ORDER BY id;", null);
+
+        ArrayList<Statistic> statistics = new ArrayList<>();
+        HashMap<Integer, Integer> counts = new HashMap<Integer, Integer>();
+
+        while (cursor.moveToNext()) {
+            int temp = Integer.parseInt(cursor.getString(0));
+            if (!(counts.containsKey(temp))) {
+                counts.put(temp, 1);
+            }
+            else {
+                int temp2 = (int) counts.get(temp);
+                counts.put(temp, temp2 + 1);
+            }
+        }
+
+        for (Integer key : counts.keySet()){
+            Cursor namePrice = mDatabase.rawQuery("SELECT title, price FROM MENU WHERE id = " + key, null);
+            String name = namePrice.getString(0);
+            float price = namePrice.getFloat(1);
+            Integer count = counts.get(key);
+            statistics.add(new Statistic(name, count, price));
+        }
+
+        return statistics;
+    }
+    
+    
     /* Create all the tables for the database if it doesn't exist */
     @Override
     public void onCreate(SQLiteDatabase db) {
