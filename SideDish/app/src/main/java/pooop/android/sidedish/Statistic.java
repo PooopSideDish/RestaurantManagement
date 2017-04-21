@@ -16,6 +16,6 @@ public class Statistic {
 
     public double getMoney(){
         // get paid
-        return 0.0;
+        return 1.0;
     }
 }
