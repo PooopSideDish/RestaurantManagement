@@ -29,7 +29,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
     /* Query the database to retrieve all the menu items */
     public ArrayList<SideDishMenuItem> getMenu(){
-        Cursor cursor = mDatabase.rawQuery("SELECT id, title, price FROM menu ORDER BY title ASC;", null);
+        Cursor cursor = mDatabase.rawQuery("SELECT id, title, price, visible FROM menu ORDER BY title ASC;", null);
         ArrayList<SideDishMenuItem> retList = new ArrayList<>();
 
         cursor.moveToFirst();
@@ -48,7 +48,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
     }
 
     public SideDishMenuItem getMenuItemByName(String name){
-        Cursor cursor = mDatabase.rawQuery("SELECT id, title, price FROM menu WHERE title=?",
+        Cursor cursor = mDatabase.rawQuery("SELECT id, title, price, visible FROM menu WHERE title=?",
                 new String[]{name});
         SideDishMenuItem retItem = null;
         if(cursor.getCount() > 0){
