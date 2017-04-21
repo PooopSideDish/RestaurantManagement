@@ -55,11 +55,10 @@ public class UserController {
                 currEmployee = mUsers.get(i);
                 return currEmployee;
             }
-
-
         }
         return null;
     }
+
     public boolean doesUserExist(String id){
         for(int i = 0; i < mUsers.size(); i++){
             if((mUsers.get(i).getID().equals(id))){

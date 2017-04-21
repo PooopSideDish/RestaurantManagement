@@ -33,10 +33,12 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         mUserController = UserController.getInstance(this);
+
         // create admin if not already created
-        if(mUserController.isValidUser("admin", "admin") == false){
+        if(mUserController.getUsers().size() == 0){
             mUserController.addUser("admin", 1, "admin");
         }
+
         setContentView(R.layout.activity_login);
 
         mLoginEditText = (EditText) findViewById(R.id.login_edit_text);
