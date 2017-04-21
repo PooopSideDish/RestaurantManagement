@@ -49,7 +49,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/edit_menu_item_visibility"
         android:gravity="left"
-        android:onClick="updateVisibility"
         android:visibility="visible"
         android:buttonTint="@color/white"
         />

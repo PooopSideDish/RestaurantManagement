@@ -57,6 +57,11 @@ public class MenuController {
         mMenuItemList = mDBHelper.getMenu();
     }
 
+    public void toggleMenuItemVisibility(String title){
+        mDBHelper.toggleMenuItemVisibility(title);
+        mMenuItemList = mDBHelper.getMenu();
+    }
+
     public void deleteMenuItem(SideDishMenuItem item){
         mDBHelper.deleteMenuItem(item.getTitle());
         // There actually is a way to do this in O(1) time using the position arg from the

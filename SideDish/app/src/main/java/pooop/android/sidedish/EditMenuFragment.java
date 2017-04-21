@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -147,6 +148,7 @@ public class EditMenuFragment extends Fragment {
 
         private TextView mMenuItemTitle;
         private TextView mMenuItemPrice;
+        private CheckBox mMenuItemVisibility;
 
         private SideDishMenuItem mItem;
 
@@ -157,10 +159,13 @@ public class EditMenuFragment extends Fragment {
 
             mMenuItemTitle = (TextView) itemView.findViewById(R.id.edit_menu_item_title_text_view);
             mMenuItemPrice = (TextView) itemView.findViewById(R.id.edit_menu_item_price_text_view);
+            mMenuItemVisibility = (CheckBox) itemView.findViewById(R.id.edit_menu_item_visibility);
 
             mDeleteItemFlag = false;
 
-            itemView.setOnClickListener(this);
+            mMenuItemTitle.setOnClickListener(this);
+            mMenuItemPrice.setOnClickListener(this);
+            mMenuItemVisibility.setOnClickListener(this);
         }
 
         public void bind(SideDishMenuItem item) {
@@ -168,79 +173,89 @@ public class EditMenuFragment extends Fragment {
 
             mMenuItemTitle.setText(mItem.getTitle());
             mMenuItemPrice.setText(String.format("%.2f", mItem.getPrice()));
+            mMenuItemVisibility.setChecked(mItem.getVisibility() == 1);
         }
 
         @Override
         public void onClick(View v) {
-            // Just building the edit menu item dialog here in the Java
-            LinearLayout layout = new LinearLayout(getActivity());
-            layout.setOrientation(LinearLayout.VERTICAL);
 
-            final EditText titleInput = new EditText(getActivity());
-            titleInput.setHint("Set New Title here.");
-            final EditText priceInput = new EditText(getActivity());
-            priceInput.setHint("Set New Price here.");
+            switch (v.getId()) {
+                case R.id.edit_menu_item_visibility:
+                    mMenuController.toggleMenuItemVisibility(mItem.getTitle());
+                    break;
 
-            final CheckBox deleteItem = new CheckBox(getActivity());
-            deleteItem.setText("Delete Menu Item");
-            deleteItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+                default:
+                    Log.w("App","toggling");
+                    // Just building the edit menu item dialog here in the Java
+                    LinearLayout layout = new LinearLayout(getActivity());
+                    layout.setOrientation(LinearLayout.VERTICAL);
 
-                @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    // Toggle the flag
-                    mDeleteItemFlag = !mDeleteItemFlag;
-                }
-            });
+                    final EditText titleInput = new EditText(getActivity());
+                    titleInput.setHint("Set New Title here.");
+                    final EditText priceInput = new EditText(getActivity());
+                    priceInput.setHint("Set New Price here.");
 
-            layout.addView(titleInput);
-            layout.addView(priceInput);
-            layout.addView(deleteItem);
+                    final CheckBox deleteItem = new CheckBox(getActivity());
+                    deleteItem.setText("Delete Menu Item");
+                    deleteItem.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
-            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setTitle("Set Title and Price of Menu Item");
-            builder.setView(layout);
-            builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            // Toggle the flag
+                            mDeleteItemFlag = !mDeleteItemFlag;
+                        }
+                    });
 
-                    if(mDeleteItemFlag){
-                        new AlertDialog.Builder(getActivity())
-                                .setMessage("Are you sure you want to delete this menu item?")
-                                .setCancelable(false)
-                                .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        mMenuController.deleteMenuItem(mItem);
-                                        updateEditMenuScreen();
-                                    }
-                                })
-                                // they cancelled, so reset mDeleteItemFlag otherwise it'll mess up on next deletion attempt
-                                .setNegativeButton("Cancel", null)
-                                .show();
+                    layout.addView(titleInput);
+                    layout.addView(priceInput);
+                    layout.addView(deleteItem);
+
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle("Set Title and Price of Menu Item");
+                    builder.setView(layout);
+                    builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                            if (mDeleteItemFlag) {
+                                new AlertDialog.Builder(getActivity())
+                                        .setMessage("Are you sure you want to delete this menu item?")
+                                        .setCancelable(false)
+                                        .setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+                                            public void onClick(DialogInterface dialog, int id) {
+                                                mMenuController.deleteMenuItem(mItem);
+                                                updateEditMenuScreen();
+                                            }
+                                        })
+                                        // they cancelled, so reset mDeleteItemFlag otherwise it'll mess up on next deletion attempt
+                                        .setNegativeButton("Cancel", null)
+                                        .show();
                                 mDeleteItemFlag = false;
-                    }
-                    else {
-                        try {
-                            double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
-                            String newTitle = String.valueOf(titleInput.getText());
-                            String oldTitle = mItem.getTitle();
+                            } else {
+                                try {
+                                    double newPrice = Double.valueOf(String.valueOf(priceInput.getText()));
+                                    String newTitle = String.valueOf(titleInput.getText());
+                                    String oldTitle = mItem.getTitle();
 
-                            mMenuController.editMenuItem(oldTitle, newTitle, newPrice);
-                        } catch(NumberFormatException nfe){}
-                    }
+                                    mMenuController.editMenuItem(oldTitle, newTitle, newPrice);
+                                } catch (NumberFormatException nfe) {
+                                }
+                            }
 
-                    updateEditMenuScreen();
-                }
-            });
+                            updateEditMenuScreen();
+                        }
+                    });
 
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    mDeleteItemFlag = false; // just in case
-                    dialog.cancel();
-                }
-            });
+                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            mDeleteItemFlag = false; // just in case
+                            dialog.cancel();
+                        }
+                    });
 
-            builder.show();
+                    builder.show();
+            }
         }
     }
 }
