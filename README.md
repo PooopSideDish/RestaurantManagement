@@ -11,9 +11,9 @@
 - [x] Change item's status from queue screen
 - [x] Change table table columns to: number, section, status
 - [x] Space out table table rows to match columns
-- [ ] Add all items in a submitted order to the history table for statistics
-- [ ] Create Statistics Screen and wire it to the nav drawer
-- [ ] Statistics date pickers
+- [x] Add all items in a submitted order to the history table for statistics
+- [x] Create Statistics Screen and wire it to the nav drawer
+- [x] Statistics date pickers
 - [x] Add confirm deletion dialogs for orders, menu items, and users
 - [x] Ensure that no two menu items have the same name
 - [x] Ensure that no two users have the same id
@@ -33,13 +33,13 @@
 - [x] The database shall retain price information for every menu item. If a menu item is deleted, that information will be removed. 
 - [x] Menu items shall be toggleable to determine visibility 
 - [ ] The system shall have data inputs of new orders, update status of those orders, add new reservations and have data outputs of receipts and sales manifests. 
-- [ ] The system shall have dates/times in the format of MM/DD/YYYY, HH:MM AM/PM. It will have employee IDs, and table numbers in integer format. All data will have to be accurate in order to properly work. 
+- [x] The system shall have dates/times in the format of MM/DD/YYYY, HH:MM AM/PM. It will have employee IDs, and table numbers in integer format. All data will have to be accurate in order to properly work. 
 - [x] Waiters shall be able to place orders into a queue for future interaction 
 - [x] Waiters/Managers shall be able to modify orders after they are in queue 
 - [x] The program shall be able to uniquely distinguish between each order placed 
 - [x] The system shall be able to display the current orders in the queue. 
 - [x] The Kitchen staff shall be able to set items in the queue to the ready position
 - [x] Waiters/Managers shall be able to remove ‘ready’ items from the queue 
-- [ ] The database shall retain information on previously sold orders. 
-- [ ] The system shall log the number of each menu item sold in each of the past 7 days, on average for each day of the week, and total sold all time. 
+- [x] The database shall retain information on previously sold orders. 
+- [x] The system shall log the number of each menu item sold in each of the past 7 days, on average for each day of the week, and total sold all time. 
 - [ ] The formula to determine price trends will total number of sales for that item across a certain time period (weekly, monthly) 
