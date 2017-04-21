@@ -6,7 +6,6 @@
     android:background="@drawable/app_background_vert"
     tools:context="pooop.android.sidedish.StatisticsFragment">
 
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -32,6 +31,7 @@
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:text="Sun" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -39,6 +39,7 @@
             android:textStyle="bold"
             android:textColor="#FFFFFF"
             android:text="Mon" />
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
