@@ -389,6 +389,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         // Generate a time stamp for the database
         // Calendars are easy to set for statistics so using Calendar object instead of Date object
         Calendar c = Calendar.getInstance();
+        long timestamp = c.getTimeInMillis();
         String year   = String.valueOf(c.get(Calendar.YEAR));
         String month  = String.valueOf(c.get(Calendar.MONTH));
         String day    = String.valueOf(c.get(Calendar.DAY_OF_MONTH));
@@ -399,9 +400,9 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         // For every title, insert a title and date into the history
         for(int i=0; i < o.getItems().size(); i++){
             String title = o.getItems().get(i).getTitle();
-            mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, " +
+            mDatabase.execSQL("INSERT INTO history VALUES (?, ?, ?, ?, ?, ?, ?, " +
                     "(SELECT id FROM menu WHERE title==?)" +
-                    ");", new String[]{year, month, day, hour, minute, second, title});
+                    ");", new String[]{year, month, day, hour, minute, second, String.valueOf(timestamp), title});
         }
     }
 
@@ -462,7 +463,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         // Not using timestamps because setting a Calendar object is easier if I can just pull
         // integer values out of the query and not deal with conversions
         mDatabase.execSQL("CREATE TABLE history (" +
-                "year INTEGER, month INTEGER, day INTEGER, hour INTEGER, minute INTEGER, second INTEGER, " +
+                "year INTEGER, month INTEGER, day INTEGER, hour INTEGER, minute INTEGER, second INTEGER, timestamp INTEGER, " +
                 "menu_item_id INTEGER REFERENCES menu(id) ON DELETE CASCADE);");
     }
 
