@@ -35,15 +35,18 @@ public class MenuController {
     }
 
     public String[] getMenuTitles(){
-        ArrayList<String> beginArray = new ArrayList<>();
-        int j=0;
-        for(int i = 0; i < mMenuItemList.size(); i++)
-            if(mMenuItemList.get(i).getVisibility() == 1) {
-                beginArray.add(mMenuItemList.get(i).getTitle());
-                j++;
+        mMenuItemList = mDBHelper.getMenu();
+        ArrayList<String> temp = new ArrayList<>();
+        for(int i=0; i<mMenuItemList.size(); i++){
+            if(mMenuItemList.get(i).getVisibility() == 1){
+                temp.add(mMenuItemList.get(i).getTitle());
             }
-        String[] retArray = new String[beginArray.size()];
-        for(int i=0;i< beginArray.size();i++) retArray[i] = beginArray.get(i);
+        }
+
+        String[] retArray = new String[temp.size()];
+
+        for(int i=0; i<temp.size(); i++) retArray[i] = temp.get(i);
+
         return retArray;
     }
 

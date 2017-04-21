@@ -74,7 +74,6 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         else {
             newValue = 1;
         }
-        Log.v("Log",String.valueOf(newValue));
 
         mDatabase.execSQL("UPDATE menu SET visible=? WHERE title=?;",
                 new String[]{String.valueOf(newValue), title});
