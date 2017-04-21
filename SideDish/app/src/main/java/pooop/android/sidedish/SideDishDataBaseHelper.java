@@ -171,9 +171,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
 
         orderCursor.moveToFirst();
         while(!orderCursor.isAfterLast()) {
-            /* TESTING */
             Log.d("LOG:", "Retrieved order id = " + orderCursor.getInt(0) + " associated with table id = " + orderCursor.getInt(2));
-            /* TESTING */
 
             //                               order id          order status as int
             Order newOrder = new Order(orderCursor.getInt(0), orderCursor.getInt(1));

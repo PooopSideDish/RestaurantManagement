@@ -26,6 +26,15 @@ public class StatisticsFragment extends Fragment {
     private Button mEndDateButton;
     private TextView mTotalMoneyMadeTextView;
 
+    private MenuController mMenuController;
+
+    private int mStartYear;
+    private int mStartMonth;
+    private int mStartDay;
+    private int mEndYear;
+    private int mEndMonth;
+    private int mEndDay;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -33,10 +42,19 @@ public class StatisticsFragment extends Fragment {
 
         getActivity().setTitle("Statistics");
 
+        mMenuController = MenuController.getInstance(getActivity());
+
         final Calendar today = Calendar.getInstance();
-        String todayYear  = String.valueOf(today.get(Calendar.YEAR) % 100);
-        String todayMonth = String.valueOf(today.get(Calendar.MONTH) + 1);
-        String todayDay   = String.valueOf(today.get(Calendar.DAY_OF_MONTH));
+        mStartYear  = today.get(Calendar.YEAR);
+        mStartMonth = today.get(Calendar.MONTH);
+        mStartDay   = today.get(Calendar.DAY_OF_MONTH);
+        mEndYear    = mStartYear;
+        mEndMonth   = mStartMonth;
+        mEndDay     = mStartDay;
+
+        String todayYear  = String.valueOf(mStartYear % 100);
+        String todayMonth = String.valueOf(mStartMonth + 1);
+        String todayDay   = String.valueOf(mStartDay);
 
         mStartDateButton = (Button) view.findViewById(R.id.statistics_start_date_button);
         mStartDateButton.setText(todayMonth + "/" + todayDay + "/" + todayYear);
@@ -46,15 +64,21 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View v) {
 
                 DatePickerDialog startDatePicker = new DatePickerDialog(getActivity());
-                startDatePicker.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+                startDatePicker.updateDate(mStartYear, mStartMonth, mStartDay);
                 startDatePicker.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        mStartYear  = year;
+                        mStartMonth = month;
+                        mStartDay   = dayOfMonth;
+
                         String startYear  = String.valueOf(year % 100);
                         String startMonth = String.valueOf(month + 1);
                         String startDay   = String.valueOf(dayOfMonth);
 
                         mStartDateButton.setText(startMonth + "/" + startDay + "/" + startYear);
+
+                        updateStatistics();
                     }
                 });
                 startDatePicker.show();
@@ -69,15 +93,21 @@ public class StatisticsFragment extends Fragment {
             public void onClick(View v) {
 
                 DatePickerDialog endDatePicker = new DatePickerDialog(getActivity());
-                endDatePicker.updateDate(today.get(Calendar.YEAR), today.get(Calendar.MONTH), today.get(Calendar.DAY_OF_MONTH));
+                endDatePicker.updateDate(mEndYear, mEndMonth, mEndDay);
                 endDatePicker.setOnDateSetListener(new DatePickerDialog.OnDateSetListener() {
                     @Override
                     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+                        mEndYear  = year;
+                        mEndMonth = month;
+                        mEndDay   = dayOfMonth;
+
                         String endYear  = String.valueOf(year % 100);
                         String endMonth = String.valueOf(month + 1);
                         String endDay   = String.valueOf(dayOfMonth);
 
                         mEndDateButton.setText(endMonth + "/" + endDay + "/" + endYear);
+
+                        updateStatistics();
                     }
                 });
                 endDatePicker.show();
@@ -96,22 +126,20 @@ public class StatisticsFragment extends Fragment {
 
     private void updateStatistics(){
 
-        /* TEST DATA */
-        ArrayList<Statistic> testlist = new ArrayList<>();
-        for(int i=0; i<10; i++) testlist.add(new Statistic("hello", 5, (float)1.0));
-        /* TEST DATA */
+        ArrayList<Statistic> stats = mMenuController.getStatistics(mStartYear, mStartMonth, mStartDay,
+                    mEndYear, mEndMonth, mEndDay);
 
         // Populate the list of orders
         if(mStatisticsAdapter== null){
-            mStatisticsAdapter = new StatisticsAdapter(testlist);
+            mStatisticsAdapter = new StatisticsAdapter(stats);
             mRecyclerView.setAdapter(mStatisticsAdapter);
         }
-        else mStatisticsAdapter.setStats(testlist);
+        else mStatisticsAdapter.setStats(stats);
 
         double totalMoney = 0.0;
 
-        for(int i=0; i<testlist.size(); i++){
-            totalMoney += testlist.get(i).getMoney();
+        for(int i=0; i<stats.size(); i++){
+            totalMoney += stats.get(i).getMoney();
         }
         mTotalMoneyMadeTextView.setText("$ " + String.valueOf(totalMoney));
 

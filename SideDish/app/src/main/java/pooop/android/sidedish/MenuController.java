@@ -1,7 +1,6 @@
 package pooop.android.sidedish;
 
 import android.content.Context;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,6 +45,51 @@ public class MenuController {
         String[] retArray = new String[beginArray.size()];
         for(int i=0;i< beginArray.size();i++) retArray[i] = beginArray.get(i);
         return retArray;
+    }
+
+    public ArrayList<Statistic> getStatistics(int startYear, int startMonth, int startDay,
+                    int endYear, int endMonth, int endDay) {
+
+        // Make sure start is same or before end
+        if(endYear < startYear){
+            int temp = endYear;
+            endYear = startYear;
+            startYear = temp;
+
+            temp = endMonth;
+            endMonth = startMonth;
+            startMonth = temp;
+
+            temp = endDay;
+            endDay = startDay;
+            startDay = temp;
+        }
+
+        if(endYear == startYear && endMonth < startMonth){
+            int temp = endMonth;
+            endMonth = startMonth;
+            startMonth = temp;
+
+            temp = endDay;
+            endDay = startDay;
+            startDay = temp;
+        }
+
+        if(endYear == startYear && endMonth == startMonth && endDay < startDay) {
+            int temp = endDay;
+            endDay = startDay;
+            startDay = temp;
+        }
+
+
+        // TODO : pass start date and end date to DB and retrieve an arraylist of stats
+
+        /* TEST DATA */
+        ArrayList<Statistic> testlist = new ArrayList<>();
+        for (int i = 0; i < 10; i++) testlist.add(new Statistic("hello", 5, (float) 1.0));
+        /* TEST DATA */
+
+        return testlist;
     }
 
     public void hideMenuItem(String name){
