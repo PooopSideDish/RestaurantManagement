@@ -98,7 +98,7 @@ public class StatisticsFragment extends Fragment {
 
         /* TEST DATA */
         ArrayList<Statistic> testlist = new ArrayList<>();
-        for(int i=0; i<10; i++) testlist.add(new Statistic());
+        for(int i=0; i<10; i++) testlist.add(new Statistic("hello", 5, (float)1.0));
         /* TEST DATA */
 
         // Populate the list of orders
@@ -166,7 +166,7 @@ public class StatisticsFragment extends Fragment {
         public void bind(Statistic stat){
             mStat = stat;
 
-            mItemTitleTextView.setText(stat.getTitle());
+            mItemTitleTextView.setText(stat.getName());
             mItemNumSoldTextView.setText(String.valueOf(stat.getNumSold()));
             mItemMoneyMadeTextView.setText(String.valueOf(stat.getMoney()));
         }
