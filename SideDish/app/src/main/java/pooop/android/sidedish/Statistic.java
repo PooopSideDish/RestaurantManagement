@@ -2,20 +2,25 @@ package pooop.android.sidedish;
 
 public class Statistic {
 
-    public void Statistic(){
-        // TODO: implement Statistic
+    private String name;
+    private int numSold;
+    private float totalRevenue;
+
+    public Statistic(String title, int unitsSold, float price) {
+        name = title;
+        numSold = unitsSold;
+        totalRevenue = unitsSold * price;
     }
 
-    public int getNumSold(){
-        return 42;
+    public String getName() {
+        return name;
     }
 
-    public String getTitle(){
-        return "hello";
+    public int getNumSold() {
+        return numSold;
     }
 
-    public double getMoney(){
-        // get paid
-        return 0.0;
+    public float getTotalRevenue() {
+        return totalRevenue;
     }
 }
