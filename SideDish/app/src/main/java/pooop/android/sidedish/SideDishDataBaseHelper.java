@@ -212,7 +212,7 @@ public class SideDishDataBaseHelper extends SQLiteOpenHelper{
         detailsCursor.moveToFirst();
         while(!detailsCursor.isAfterLast()) {
             String itemId = String.valueOf(detailsCursor.getInt(0));
-            String queryMenuItems = "SELECT title, price, id FROM menu WHERE id==?";
+            String queryMenuItems = "SELECT title, price, id, visible FROM menu WHERE id==?";
             Cursor itemCursor = mDatabase.rawQuery(queryMenuItems, new String[]{itemId});
 
 
